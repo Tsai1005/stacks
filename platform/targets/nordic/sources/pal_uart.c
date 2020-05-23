@@ -172,6 +172,7 @@ void PalUartInit(PalUartId_t id, const PalUartConfig_t *pCfg)
   nrfCfg.parity = NRF_UARTE_PARITY_EXCLUDED;
   nrfCfg.interrupt_priority = 0xFF; /* Lowest priority. */
   nrfCfg.hwfc = pCfg->hwFlow ? NRF_UARTE_HWFC_ENABLED : NRF_UARTE_HWFC_DISABLED;
+  SEGGER_RTT_printf(0, "[Uart]: Tx pin: %d / Rx pin: %d.\r\n", nrfCfg.pseltxd, nrfCfg.pselrxd);
 
   switch (pCfg->baud)
   {
@@ -187,6 +188,7 @@ void PalUartInit(PalUartId_t id, const PalUartConfig_t *pCfg)
 
   if (err_code != NRFX_SUCCESS)
   {
+    SEGGER_RTT_WriteString(0, "[Uart]: PAL_UART_STATE_ERROR\r\n");
     pCtx->state = PAL_UART_STATE_ERROR;
     return;
   }

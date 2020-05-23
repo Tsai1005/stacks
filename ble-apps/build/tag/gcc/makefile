@@ -28,7 +28,8 @@ ROOT_DIR        := ../../../..
 BIN_FILE        := tag.elf
 
 # Options
-DEBUG           := 0
+TOKEN			:= 0
+DEBUG           := 1
 TRACE           := 1
 BT_VER          := 8
 USE_EXACTLE     := 1

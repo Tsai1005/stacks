@@ -317,6 +317,7 @@ bool_t lhciCommonDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
   uint8_t status = HCI_SUCCESS;
   uint8_t paramLen = 0;
 
+    SEGGER_RTT_printf(0, "[LL]: lhciCommonDecodeCmdPkt 0x%x\r\n", pHdr->opCode);
   switch (pHdr->opCode)
   {
     /* --- status --- */
@@ -402,6 +403,7 @@ bool_t lhciCommonDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
       break;
     }
     case HCI_OPCODE_RESET:
+    SEGGER_RTT_printf(0, "[LL]: RESET \r\n");
       LlReset();
 
       /* No events during reset. */

@@ -35,6 +35,7 @@
 #include "pal_bb.h"
 #include "pal_cfg.h"
 
+#include "SEGGER_RTT.h"
 /**************************************************************************************************
   Global Variables
 **************************************************************************************************/
@@ -152,6 +153,9 @@ static bool_t mainCheckServiceTokens(void)
 /*************************************************************************************************/
 int main(void)
 {
+  SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+  SEGGER_RTT_WriteString(0, ">>>>NRF52 Uart Controller\r\n");
+
   mainLoadConfiguration();
   mainWsfInit();
 
@@ -168,7 +172,10 @@ int main(void)
 
   uint32_t memUsed;
 
+  SEGGER_RTT_WriteString(0, "1 - LlInitControllerInit\r\n");
   memUsed = LlInitControllerInit(&llCfg);
+
+  SEGGER_RTT_WriteString(0, "2 - WsfHeapAlloc\r\n");
   WsfHeapAlloc(memUsed);
 
   bdAddr_t bdAddr;

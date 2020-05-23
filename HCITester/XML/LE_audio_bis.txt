@@ -1,0 +1,7 @@
+ClearTrace
+
+Send_HCI_Reset
+sleep (2000)
+
+#init
+

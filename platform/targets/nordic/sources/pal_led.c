@@ -24,7 +24,8 @@
 
 #include "pal_led.h"
 
-#if defined(BOARD_PCA10056)
+/* #if defined(BOARD_PCA10056) */
+#if defined(BOARD_PCA10056) | defined(BOARD_PCA10040)
 #include "boards.h"
 #include "nrfx_gpiote.h"
 #endif
@@ -81,7 +82,8 @@ static int palLedMapId(uint8_t ledId)
 /*************************************************************************************************/
 void PalLedInit(void)
 {
-#if defined(BOARD_PCA10056)
+/* #if defined(BOARD_PCA10056) */
+#if defined(BOARD_PCA10056) | defined(BOARD_PCA10040)
   nrfx_err_t err;
 
   if (!nrfx_gpiote_is_init())
@@ -123,7 +125,8 @@ void PalLedInit(void)
 /*************************************************************************************************/
 void PalLedDeInit(void)
 {
-#if defined(BOARD_PCA10056)
+/* #if defined(BOARD_PCA10056) */
+#if defined(BOARD_PCA10056) | defined(BOARD_PCA10040)
   nrfx_gpiote_out_uninit(LED_1);
   nrfx_gpiote_out_uninit(LED_2);
   nrfx_gpiote_out_uninit(LED_3);
@@ -153,7 +156,8 @@ void PalLedDeInit(void)
 /*************************************************************************************************/
 void PalLedOn(uint8_t ledId)
 {
-#if defined(BOARD_PCA10056)
+/* #if defined(BOARD_PCA10056) */
+#if defined(BOARD_PCA10056) | defined(BOARD_PCA10040)
   switch (ledId)
   {
   case PAL_LED_ID_CPU_ACTIVE:
@@ -217,7 +221,8 @@ void PalLedOn(uint8_t ledId)
 /*************************************************************************************************/
 void PalLedOff(uint8_t ledId)
 {
-#if defined(BOARD_PCA10056)
+/* #if defined(BOARD_PCA10056) */
+#if defined(BOARD_PCA10056) | defined(BOARD_PCA10040)
   switch (ledId)
   {
   case PAL_LED_ID_CPU_ACTIVE:

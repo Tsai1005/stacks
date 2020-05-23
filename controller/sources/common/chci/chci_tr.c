@@ -194,13 +194,16 @@ static void chciRxPacketSM(void)
     switch (chciTrCb.rdHdr[0])
     {
       case HCI_CMD_TYPE:
-        chciTrRead(HCI_CMD_HDR_LEN, &chciTrCb.rdHdr[1]);
-        break;
+          SEGGER_RTT_printf(0, "[CHCI]: HCI_CMD_TYPE : 0x%x\r\n", chciTrCb.rdHdr[0]);
+          chciTrRead(HCI_CMD_HDR_LEN, &chciTrCb.rdHdr[1]);
+          break;
       case HCI_ACL_TYPE:
-        chciTrRead(HCI_ACL_HDR_LEN, &chciTrCb.rdHdr[1]);
-        break;
+          SEGGER_RTT_printf(0, "[CHCI]: HCI_ACL_TYPE : 0x%x\r\n", chciTrCb.rdHdr[0]);
+          chciTrRead(HCI_ACL_HDR_LEN, &chciTrCb.rdHdr[1]);
+          break;
       case HCI_ISO_TYPE:
-        chciTrRead(HCI_ISO_HDR_LEN, &chciTrCb.rdHdr[1]);
+          SEGGER_RTT_printf(0, "[CHCI]: HCI_ISO_TYPE : 0x%x\r\n", chciTrCb.rdHdr[0]);
+          chciTrRead(HCI_ISO_HDR_LEN, &chciTrCb.rdHdr[1]);
         break;
       case CHCI_15P4_CMD_TYPE:
       case CHCI_15P4_DATA_TYPE:
@@ -322,6 +325,7 @@ static void chciRxPacketSM(void)
   {
     WSF_ASSERT(chciTrCb.pRdBuf);
 
+    SEGGER_RTT_printf(0, "[CHCI]: CHCI_RX_STATE_COMPLETE\r\n");
     switch (chciTrCb.rdHdr[0])
     {
       case HCI_ISO_TYPE:
@@ -331,6 +335,7 @@ static void chciRxPacketSM(void)
         chciTrRecv(CHCI_TR_PROT_BLE, CHCI_TR_TYPE_ACL, chciTrCb.pRdBuf);
         break;
       case HCI_CMD_TYPE:
+        SEGGER_RTT_printf(0, "[CHCI]: HCI_CMD_TYPE\r\n");
         chciTrRecv(CHCI_TR_PROT_BLE, CHCI_TR_TYPE_CMD, chciTrCb.pRdBuf);
         break;
       case CHCI_15P4_CMD_TYPE:
@@ -499,11 +504,14 @@ void ChciTrHandlerInit(wsfHandlerId_t handlerId, uint16_t maxAclLen, uint16_t ma
 
 #if (CHCI_TR_UART == 1)
   PalUartConfig_t cfg;
-  cfg.baud   = UART_BAUD;
-  cfg.hwFlow = UART_HWFC;
+  cfg.baud   = 115200;
+  cfg.hwFlow = 0;
   cfg.rdCback = chciRxPacketSM;
   cfg.wrCback = chciTxComplete;
   PalUartInit(PAL_UART_ID_CHCI, &cfg);
+
+  SEGGER_RTT_printf(0, "[CHCI]: Baud  : %d / FlowControl %d\r\n", UART_BAUD, UART_HWFC);
+  SEGGER_RTT_printf(0, "[CHCI]: Baud  : %d / FlowControl %d\r\n", cfg.baud, cfg.hwFlow);
 
   /* Start receiver. */
   chciRxPacketSM();

@@ -24,7 +24,8 @@
 
 # Board
 ifeq ($(BOARD),)
-BOARD           := PCA10056
+# BOARD           := PCA10056
+BOARD           := PCA10040
 endif
 
 BSP_DIR         := $(ROOT_DIR)/thirdparty/nordic-bsp

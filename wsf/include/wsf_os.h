@@ -27,6 +27,9 @@
 #include "wsf_types.h"
 #include "wsf_queue.h"
 
+
+#include "SEGGER_RTT.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

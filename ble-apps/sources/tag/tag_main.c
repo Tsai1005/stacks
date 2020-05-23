@@ -47,6 +47,7 @@
 #include "gap/gap_api.h"
 #include "fmpl/fmpl_api.h"
 
+#include "pal_led.h"
 /**************************************************************************************************
   Macros
 **************************************************************************************************/
@@ -1131,6 +1132,26 @@ void TagStart(void)
   SvcCoreAddGroup();
   SvcPxCbackRegister(NULL, tagIasWriteCback);
   SvcPxAddGroup();
+
+  /* Initialize on board LEDs. */
+  /* PalLedInit(); */
+
+  while(0) {
+
+      /* SEGGER_RTT_WriteString(0, "Hello world from SEGGER\r\n"); */
+      SEGGER_RTT_printf(0, "Hello world from SEGGER\r\n");
+
+      PalLedOn(0);
+      PalLedOn(1);
+      PalLedOn(PAL_LED_ID_CPU_ACTIVE);
+      PalLedOn(PAL_LED_ID_ERROR);
+      /* delay(100); */
+
+      PalLedOff(0);
+      PalLedOff(1);
+      PalLedOff(PAL_LED_ID_CPU_ACTIVE);
+      PalLedOff(PAL_LED_ID_ERROR);
+  }
 
   /* Set Service Changed CCCD index. */
   GattSetSvcChangedIdx(TAG_GATT_SC_CCC_IDX);

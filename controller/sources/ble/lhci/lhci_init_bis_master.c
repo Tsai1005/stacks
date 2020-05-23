@@ -35,6 +35,7 @@
 /*************************************************************************************************/
 void LhciBisMasterInit(void)
 {
+    SEGGER_RTT_WriteString(0, "[LL]: LhciBisMasterInit\r\n");
   lhciCmdTbl[LHCI_MSG_BIS_MST] = lhciMstBisDecodeCmdPkt;
   lhciEvtTbl[LHCI_MSG_BIS_MST] = lhciMstBisEncodeEvtPkt;
 }

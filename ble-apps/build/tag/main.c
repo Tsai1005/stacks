@@ -59,6 +59,7 @@
 
 #include <string.h>
 
+#include "SEGGER_RTT.h"
 /**************************************************************************************************
   Macros
 **************************************************************************************************/
@@ -160,6 +161,10 @@ int main(void)
   WsfHeapAlloc(memUsed);
 
   mainWsfInit();
+
+  APP_TRACE_INFO0("========================================================");
+  APP_TRACE_INFO0(__DATE__);
+
   AppTerminalInit();
 
 #if defined(HCI_TR_EXACTLE) && (HCI_TR_EXACTLE == 1)
@@ -173,6 +178,10 @@ int main(void)
     .pFreeMem     = WsfHeapGetFreeStartAddress(),
     .freeMemAvail = WsfHeapCountAvailable()
   };
+
+  APP_TRACE_INFO0("SEGGER write");
+  SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+  SEGGER_RTT_WriteString(0, "SEGGER Real-Time-Terminal Sample\r\n");
 
   memUsed = LlInit(&llCfg);
   WsfHeapAlloc(memUsed);

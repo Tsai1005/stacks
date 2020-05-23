@@ -47,6 +47,11 @@
 #include "app_config.h"
 #endif
 // <h> nRF_ANT 
+// 
+// #define NRF_LOG_ENABLED                 1
+// #define NRF_LOG_DEFAULT_LEVEL           3
+// #define NRF_LOG_BACKEND_RTT_ENABLED     1
+// #define NRF_LOG_USES_TIMESTAMP          1
 
 //==========================================================
 // <e> ANTFS_ENABLED - ant_fs - ANT File Share module.

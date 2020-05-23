@@ -123,6 +123,7 @@ void LlInitLhciInit(void)
   #endif
 
   #if (BT_VER >= LL_VER_BT_CORE_SPEC_5_2)
+    SEGGER_RTT_WriteString(0, "[LL]: LL_VER_BT_CORE_SPEC_5_2\r\n");
     #ifdef INIT_CENTRAL
       LhciCisMasterInit();
       LhciBisMasterInit();

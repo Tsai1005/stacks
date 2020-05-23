@@ -34,12 +34,15 @@ BIN_FILE        := unittest.elf
 # Options
 DEBUG           := 2
 
+include sources.mk
 #--------------------------------------------------------------------------------------------------
 #     Targets
 #--------------------------------------------------------------------------------------------------
 
-include $(ROOT_DIR)/platform/$(PLATFORM)/build/build.mk
-include $(ROOT_DIR)/platform/$(PLATFORM)/build/install.mk
+include $(ROOT_DIR)/controller/build/common/gcc/build.mk
+# include $(ROOT_DIR)/platform/$(PLATFORM)/build/build.mk
+# include $(ROOT_DIR)/platform/$(PLATFORM)/build/install.mk
+include $(ROOT_DIR)/platform/build/common/gcc/install.mk
 
 #--------------------------------------------------------------------------------------------------
 #     Configuration

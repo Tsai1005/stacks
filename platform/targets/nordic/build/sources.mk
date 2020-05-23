@@ -31,7 +31,7 @@ INC_DIRS  += \
 	$(BSP_DIR)/components/libraries/crypto \
 	$(BSP_DIR)/components/libraries/util \
 	$(BSP_DIR)/components/toolchain \
-	$(BSP_DIR)/components/toolchain/cmsis/include \
+	$(BSP_DIR)/components/toolchain/CMSIS/Include \
 	$(BSP_DIR)/external/nrf_cc310/include \
 	$(BSP_DIR)/modules/nrfx \
 	$(BSP_DIR)/modules/nrfx/drivers/include \
@@ -158,3 +158,42 @@ INC_DIRS  += \
 
 C_FILES   += \
 	$(ROOT_DIR)/thirdparty/uecc/uECC_ll.c
+
+#--------------------------------------------------------------------------------------------------
+#	Debug : Log
+#--------------------------------------------------------------------------------------------------
+# INC_DIRS  += \
+	$(BSP_DIR)/components/libraries/log \
+	$(BSP_DIR)/components/libraries/log/src \
+	$(BSP_DIR)/components/libraries/strerror \
+	$(BSP_DIR)/components/libraries/ringbuf \
+	$(BSP_DIR)/components/libraries/atomic \
+	$(BSP_DIR)/components/libraries/memobj \
+	$(BSP_DIR)/components/libraries/balloc \
+	$(BSP_DIR)/components/libraries/delay \
+	$(BSP_DIR)/components/libraries/experimental_section_vars \
+	$(BSP_DIR)/external/fprintf/ \
+
+# C_FILES   += \
+  	$(BSP_DIR)/components/libraries/util/app_util_platform.c \
+  	$(BSP_DIR)/components/libraries/atomic/nrf_atomic.c \
+  	$(BSP_DIR)/components/libraries/memobj/nrf_memobj.c \
+  	$(BSP_DIR)/components/libraries/ringbuf/nrf_ringbuf.c \
+  	$(BSP_DIR)/components/libraries/log/src/nrf_log_frontend.c \
+  	$(BSP_DIR)/components/libraries/log/src/nrf_log_backend_rtt.c \
+  	$(BSP_DIR)/components/libraries/log/src/nrf_log_backend_uart.c \
+  	$(BSP_DIR)/components/libraries/log/src/nrf_log_default_backends.c \
+
+	# $(BSP_DIR)/components/libraries/log/src/nrf_log_str_formatter \
+		#
+#--------------------------------------------------------------------------------------------------
+#	Debug : SEGGER
+#--------------------------------------------------------------------------------------------------
+
+INC_DIRS  += \
+	$(ROOT_DIR)/thirdparty/SEGGER_RTT_V672e/RTT \
+
+C_FILES   += \
+	$(ROOT_DIR)/thirdparty/SEGGER_RTT_V672e/RTT/SEGGER_RTT.c \
+	$(ROOT_DIR)/thirdparty/SEGGER_RTT_V672e/RTT/SEGGER_RTT_printf.c \
+

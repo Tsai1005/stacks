@@ -35,6 +35,7 @@
 /*************************************************************************************************/
 void LhciCisSlaveInit(void)
 {
+    SEGGER_RTT_WriteString(0, "[LL]: LhciCisSlaveInit\r\n");
   lhciCmdTbl[LHCI_MSG_CIS_SLV] = lhciSlvCisDecodeCmdPkt;
   lhciEvtTbl[LHCI_MSG_CIS_SLV] = lhciSlvCisEncodeEvtPkt;
 }

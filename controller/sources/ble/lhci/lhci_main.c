@@ -92,6 +92,7 @@ void LhciHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
   uint32_t startTime;
   uint32_t endTime;
 
+    SEGGER_RTT_printf(0, "[LL]: LhciHandler 0x%x\r\n", event);
   startTimeValid = PalBbGetTimestamp(NULL);
   if (startTimeValid)
   {

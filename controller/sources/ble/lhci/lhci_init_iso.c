@@ -60,6 +60,7 @@ void LhciIsoHandlerInit(wsfHandlerId_t handlerId)
 /*************************************************************************************************/
 void LhciIsoInit(void)
 {
+    SEGGER_RTT_WriteString(0, "[LL]: LhciIsoInit\r\n");
   LlIsoRegister(lhciIsoSendComplete, lhciIsoRecvPending);
 
   lhciServiceIso = lhciRecvIso;

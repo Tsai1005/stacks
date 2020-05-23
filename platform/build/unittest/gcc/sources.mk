@@ -26,7 +26,7 @@
 
 CFG_SYS         += BB_CLK_RATE_HZ=$(BB_CLK_RATE_HZ)
 
-include $(ROOT_DIR)/platform/$(PLATFORM)/build/sources.mk
+include $(ROOT_DIR)/platform/targets/$(PLATFORM)/build/sources.mk
 
 #--------------------------------------------------------------------------------------------------
 # 	Startup files

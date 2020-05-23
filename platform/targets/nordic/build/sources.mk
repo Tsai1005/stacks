@@ -31,7 +31,7 @@ INC_DIRS  += \
 	$(BSP_DIR)/components/libraries/crypto \
 	$(BSP_DIR)/components/libraries/util \
 	$(BSP_DIR)/components/toolchain \
-	$(BSP_DIR)/components/toolchain/CMSIS/Include \
+	$(BSP_DIR)/components/toolchain/cmsis/include \
 	$(BSP_DIR)/external/nrf_cc310/include \
 	$(BSP_DIR)/modules/nrfx \
 	$(BSP_DIR)/modules/nrfx/drivers/include \

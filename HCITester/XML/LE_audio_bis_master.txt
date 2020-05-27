@@ -1,0 +1,55 @@
+ClearTrace
+
+SetVerbose 1
+
+Logger 7, "===DEMO===="
+
+Log "My Log Message", , , , , 
+
+#1 - initial setup
+Send_HCI_Reset
+Wait_HCI_Command_Complete_Reset_Event 5000, any, HCI_Reset, 0x00
+
+Send_HCI_Set_Event_Mask 0x2000800002018C94
+sleep (200)
+
+Send_HCI_LE_Set_Event_Mask 0x00000003ff0fffff
+Wait_HCI_Command_Complete_LE_Set_Event_Mask_Event 5000, any, HCI_LE_Set_Event_Mask, 0x00
+
+
+
+#Send_HCI_Read_Local_Supported_Commands
+#Wait_HCI_Command_Complete_Read_Local_Supported_Commands_Event 5000, any, HCI_Read_Local_Supported_Commands, 0x00, "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
+
+#Send_HCI_Read_Local_Supported_Features
+#Wait_HCI_Command_Complete_Read_Local_Supported_Features_Event 5000, any, HCI_Read_Local_Supported_Features, 0x00, 
+
+Send_HCI_Read_BD_ADDR
+#Wait_HCI_Command_Complete_Read_BD_ADDR_Event 5000, any, HCI_Read_BD_ADDR, 0x00, BD_ADDR
+Sleep (100)
+
+Send_HCI_LE_Read_White_List_Size
+Wait_HCI_Command_Complete_LE_Read_White_List_Size_Event 5000, any, HCI_LE_Read_White_List_Size, 0x00, 
+
+Send_HCI_LE_Add_Device_To_White_List 0x00, "DD:E7:0E:E7:79:C8"
+Wait_HCI_Command_Complete_LE_Add_Device_To_White_List_Event 5000, any, HCI_LE_Add_Device_To_White_List, 0x00
+
+
+Send_HCI_Read_Local_Version_Information
+Wait_HCI_Command_Complete_Read_Local_Version_Information_Event 5000, any, HCI_Read_Local_Version_Information, 0x00, 0x0b, 0x0000, 0x0b, 0x7e8, 0x0000
+
+#2 - Setup Extended Scan
+Send_HCI_LE_Read_Local_Supported_Features
+Wait_HCI_Command_Complete_LE_Read_Local_Supported_Features_Event 5000, any, HCI_LE_Read_Local_Supported_Features, 0x00, 
+
+
+
+Send_HCI_LE_SetExtScanParamsCmd 0x00, 0x00, 0x01, 0x01, "160", "80"
+Wait_HCI_Command_Complete_LE_SetExtScanParamsCmd_Event 5000, any, HCI_LE_SetExtScanParamsCmd, 0x00
+
+Send_HCI_LE_SetExtScanEnableCmd 0x01, 0x01, 0x00, 0x00
+Wait_HCI_Command_Complete_LE_SetExtScanEnableCmd_Event 5000, any, HCI_LE_SetExtScanEnableCmd, 0x00
+
+Send_HCI_LE_Periodic_Advertising_Creat_Sync 0x00, 0x01, 0x0, "DD:E7:0E:E7:79:C8", 0x0000, 0x0100, 0x00
+Wait_HCI_Command_Complete_LE_Periodic_Advertising_Creat_Sync_Event 5000, any, HCI_LE_Periodic_Advertising_Creat_Sync, 0x00
+

@@ -22,7 +22,7 @@
 **************************************************************************** -->
 <HCILib xmlns="url:http://www.ti.com/ww/en/analog/bluetooth/index.htm?DCMP=BluetoothLowEnergy">
   <Version>
-    <Platform>TI LPRF BLE</Platform>
+    <Platform>JL LPRF BLE</Platform>
     <SoftwareMajor>0</SoftwareMajor>
     <SoftwareMinor>9</SoftwareMinor>
 
@@ -315,6 +315,10 @@
     <Value val="0x05">Bluetooth HCI Specification 3.0 + HS</Value>
     <Value val="0x06">Bluetooth HCI Specification 4.0</Value>
     <Value val="0x07">Bluetooth HCI Specification 4.1</Value>
+    <Value val="0x08">Bluetooth HCI Specification 4.2</Value>
+    <Value val="0x09">Bluetooth HCI Specification 5.0</Value>
+    <Value val="0x0a">Bluetooth HCI Specification 5.1</Value>
+    <Value val="0x0b">Bluetooth HCI Specification 5.2</Value>
   </Values>
 
   <Values name="LLVersion" type="enum">
@@ -326,6 +330,10 @@
     <Value val="0x05">Bluetooth Core Specification 3.0 + HS</Value>
     <Value val="0x06">Bluetooth Core Specification 4.0</Value>
     <Value val="0x07">Bluetooth Core Specification 4.1</Value>
+    <Value val="0x08">Bluetooth HCI Specification 4.2</Value>
+    <Value val="0x09">Bluetooth HCI Specification 5.0</Value>
+    <Value val="0x0a">Bluetooth HCI Specification 5.1</Value>
+    <Value val="0x0b">Bluetooth HCI Specification 5.2</Value>
   </Values>
 
   <Values name="CompID" type="enum">
@@ -390,6 +398,7 @@
     <Value val="58">Matsushita Electric Industrial Co., Ltd.</Value>
     <Value val="59">Gennum Corporation</Value>
     <Value val="60">Research In Motion</Value>
+    <Value val="0x7e8">Packetcraft</Value>
   </Values>
 
   <Values name="TrueFalse" type="enum">
@@ -726,6 +735,25 @@
     <Value val="0x0000000000004000">Channel Selection Algorithm #2</Value>
     <Value val="0x0000000000008000">LE Power Class 1</Value>
     <Value val="0x0000000000010000">Minimum Number of Used Channels</Value>
+    <Value val="0x0000000000020000">Connection CTE Request</Value>
+    <Value val="0x0000000000040000">Connection CTE Response</Value>
+    <Value val="0x0000000000080000">Connectionless CTE Transmitter</Value>
+    <Value val="0x0000000000100000">Connectionless CTE Receiver</Value>
+    <Value val="0x0000000000200000">Antenna Switching During CTE Transmission (AoD)</Value>
+    <Value val="0x0000000000400000">Antenna Switching During CTE Reception (AoA)</Value>
+    <Value val="0x0000000000800000">Receiving Constant Tone Extensions</Value>
+    <Value val="0x0000000001000000">Periodic Advertising Sync Transfer Sender</Value>
+    <Value val="0x0000000002000000">Periodic Advertising Sync Transfer Recipient</Value>
+    <Value val="0x0000000004000000">Sleep Clock Accuracy Updates</Value>
+    <Value val="0x0000000008000000">Remote Public Key Validation</Value>
+    <Value val="0x0000000010000000">Connected Isochronous Stream Master</Value>
+    <Value val="0x0000000020000000">Connected Isochronous Stream Slave</Value>
+    <Value val="0x0000000040000000">Isochronous Broadcaster</Value>
+    <Value val="0x0000000080000000">Synchronized Receiver</Value>
+    <Value val="0x0000000100000000">Isochronous Channels (Host Support)</Value>
+    <Value val="0x0000000200000000">LE Power Control Request</Value>
+    <Value val="0x0000000400000000">LE Power Change Indication</Value>
+    <Value val="0x0000000800000000">LE Path Loss Monitoring</Value>
   </Values>
 
   <Values name="PhyParameterMask" type="mask">
@@ -733,6 +761,21 @@
     <Value val="0x01">1M Phy</Value>
     <Value val="0x02">2M Phy</Value>
     <Value val="0x04">Coded Phy</Value>
+  </Values>
+
+  <Values name="IsoPacking" type="enum">
+    <Value val="0x00">Sequential</Value>
+    <Value val="0x01">Interleaved</Value>
+  </Values>
+
+  <Values name="IsoFraming" type="enum">
+    <Value val="0x00">Unframed</Value>
+    <Value val="0x01">Framed</Value>
+  </Values>
+
+  <Values name="IsoEncryption" type="enum">
+    <Value val="0x00">Unencrypted</Value>
+    <Value val="0x01">Encrypted</Value>
   </Values>
 
   <!-- ******************************************************* -->
@@ -874,6 +917,20 @@
     <Value val="0x0000000000020000">LE Extended Advertising Set Terminated Event</Value>
     <Value val="0x0000000000040000">LE Scan Request Received Event</Value>
     <Value val="0x0000000000080000">LE Channel Selection Algorithm Event</Value>
+    <Value val="0x0000000000100000">LE Connectionless IQ Report Event</Value>
+    <Value val="0x0000000000200000">LE Connection IQ Report Event</Value>
+    <Value val="0x0000000000400000">LE CTE Request Failed Event</Value>
+    <Value val="0x0000000000800000">LE Periodic Advertising Sync Transfer Received Event</Value>
+    <Value val="0x0000000001000000">LE CIS Established Event</Value>
+    <Value val="0x0000000002000000">LE CIS Request Event</Value>
+    <Value val="0x0000000004000000">LE Create BIG Complete Event</Value>
+    <Value val="0x0000000008000000">LE Terminate BIG Complete Event</Value>
+    <Value val="0x0000000010000000">LE BIG Sync Established Event</Value>
+    <Value val="0x0000000020000000">LE BIG Sync Lost Event</Value>
+    <Value val="0x0000000040000000">LE Request Peer SCA Complete Event</Value>
+    <Value val="0x0000000080000000">LE Path Loss Threshold Event</Value>
+    <Value val="0x0000000100000000">LE Transmit Power Reporting Event</Value>
+    <Value val="0x0000000200000000">LE BIGInfo Advertising Report Event</Value>
   </Values>
 
   <Values name="DebugMask" type="mask">
@@ -1378,6 +1435,23 @@
     <Value val="0x04">INIT_PHY_CODED</Value>
   </Values>
 
+  <Values name="HCI_LE_AE_clock_accuracy" type="enum">
+    <Value val="0x00">500 ppm</Value>
+    <Value val="0x01">250 ppm</Value>
+    <Value val="0x02">150 ppm</Value>
+    <Value val="0x03">100 ppm</Value>
+    <Value val="0x04">75 ppm</Value>
+    <Value val="0x05">50 ppm</Value>
+    <Value val="0x06">30 ppm</Value>
+    <Value val="0x07">20 ppm</Value>
+  </Values>
+
+  <Values name="HCI_LE_AE_data_status" type="enum">
+    <Value val="0x00">Data complete</Value>
+    <Value val="0x01">more data to come</Value>
+    <Value val="0x02">data truncated</Value>
+  </Values>
+
   <!-- Vendor Specific - Texas Instruments Inc. Only! -->
   <Values name="Scan_Request_Report_Event_Type" type="enum">
     <Value val="0x00">Scan Request </Value>
@@ -1397,10 +1471,19 @@
     <Value val="0x0B">LE Direct Advertising Report Event</Value>
     <Value val="0x0C">LE PHY Update Complete Event</Value>
     <Value val="0x0D">LE Extended Advertisement Report Event</Value>
+    <Value val="0x0E">LE Periodic Advertising Sync Established Event</Value>
+    <Value val="0x0F">LE Periodic Advertising Report Event</Value>
+    <Value val="0x10">LE Periodic Advertising Sync Lost Event</Value>
     <Value val="0x11">LE Scan Timeout Event</Value>
     <Value val="0x12">LE Advertising Set Terminated Event</Value>
     <Value val="0x13">LE Scan Request Received Event</Value>
     <Value val="0x14">LE Channel Selection Algorithm Event</Value>
+    <Value val="0x19">LE CIS Established Event</Value>
+    <Value val="0x1A">LE CIS Request Event</Value>
+    <Value val="0x1B">LE Create BIG Complete Event</Value>
+    <Value val="0x1C">LE Terminate BIG Complete Event</Value>
+    <Value val="0x1D">LE BIG Sync Established Event</Value>
+    <Value val="0x1E">LE BIG Sync Lost Event</Value>
     <!-- Vendor Specific - Texas Instruments Inc. Only! -->
     <Value val="0x80">LE Scan Request Report Event</Value>
   </Values>
@@ -7923,6 +8006,37 @@
     </Param>
   </Command>
 
+  <Command name="HCI_Read_BUFFER_SIZE" type="sc" opcode="0x1005">
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Status</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>ACL Data Packet Length</Name>
+      <Default>ACL_Data_Packet_Length</Default>
+      <Desc> Maximum length (in octets) of the data portion of each HCI ACL Data packet that the Controller is able to accept.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Synchronous_Data_Packet_Length</Name>
+      <Default>SYNCHRONOUS_DATA_PACKET_LENGTH</Default>
+      <Desc> Maximum length (in octets) of the data portion of each HCI Synchronous Data packet that the Controller is able to accept.</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Total_Num_ACL_Data_Packets</Name>
+      <Default>TOTAL_NUM_ACL_DATA_PACKETS</Default>
+      <Desc> Total number of HCI ACL Data packets that can be stored in the data buffers of the Controller.</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Total_Num_Synchronous_Data_Packets</Name>
+      <Default>TOTAL_NUM_SYNCHRONOUS_DATA_PACKETS</Default>
+      <Desc> Total number of HCI Synchronous Data packets that can be stored in the data buffers of the Controller.</Desc>
+    </Param>
+  </Command>
+
   <Command name="HCI_Read_BD_ADDR" type="sc" opcode="0x1009">
     <Param type="R">
       <Name>HCI_Command_Complete_Event</Name>
@@ -8025,7 +8139,7 @@
   <Command name="HCI_LE_Set_Event_Mask" type="sc" opcode="0x2001">
     <Param type="u" size="8" valtype="HCI_LE_Event_Mask">
       <Name>HCI_LE Event Mask</Name>
-      <Default>0x00000000000FFFFF</Default>
+      <Default>0x00000002FFFFFFFF</Default>
     </Param>
     <Param type="R">
       <Name>HCI_Command_Complete_Event</Name>
@@ -9377,17 +9491,17 @@
       <Param type="u" size="1" >
         <Name>Handle</Name>
         <Default>"0"</Default>
-        <Desc>Table of all the handle to enable/disable (1 byte)</Desc>
+        <Desc>Table of all the handle to enable/disable (1 byte).</Desc>
       </Param>
       <Param type="u" size="2" >
         <Name>Duration (in 10ms)</Name>
         <Default>"0"</Default>
-        <Desc>Table of all the duration for each handle (2 bytes, Range: 0x0001 – 0xFFFF, Time = N * 10 ms, Time Range: 10 ms to 655,350 ms)</Desc>
+        <Desc>Table of all the duration for each handle (2 bytes, Range: 0x0001 - 0xFFFF, Time = N * 10 ms, Time Range: 10 ms to 655,350 ms).</Desc>
       </Param>
       <Param type="u" size="1" >
         <Name>Max Events</Name>
         <Default>"0"</Default>
-        <Desc>Table of all maximum events for each handle (1 byte)</Desc>
+        <Desc>Table of all maximum events for each handle (1 byte).</Desc>
       </Param>
     <Param type="R">
       <Name>HCI_Command_Complete_Event</Name>
@@ -9448,6 +9562,101 @@
   </Command>
 
   <Command name="HCI_LE_ClearAdvSetCmd" type="sc" opcode="0x203D">
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+  </Command>
+
+  <!-- V5.0 - Advertising Extension-->
+  <Values name="AE_periodic_advProperties" type="mask">
+    <Value val="0x0040">Include TxPower</Value>
+  </Values>
+
+  <Command name="HCI_LE_Set_Periodic_Advertising_Parameters" type="sc" opcode="0x203E">
+    <Param type="u" size="1">
+      <Name>Advertising_Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify a periodic advertisement</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Periodic_Advertising_Interval_Min</Name>
+      <Default>0x0006</Default>
+      <Desc>Minimum advertising interval for periodic advertising. Range: 0x0006 to 0xFFFF, Time = N * 1.25 ms, Time Range: 7.5ms to 81.91875 s</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Periodic_Advertising_Interval_Max</Name>
+      <Default>0x0006</Default>
+      <Desc>Maximum advertising interval for periodic advertising. Range: 0x0006 to 0xFFFF, Time = N * 1.25 ms, Time Range: 7.5ms to 81.91875 s</Desc>
+    </Param>
+    <Param type="u" size="2" valtype="AE_periodic_advProperties">
+      <Name>Periodic_Advertising_Properties</Name>
+      <Default>0x00</Default>
+      <Desc>The Periodic_Advertising_Properties parameter indicates which fields should be included in the advertising packet.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+  </Command>
+
+  <Values name="AE_periodic_operation" type="enum">
+    <Value val="0x00">Intermediate fragment of data</Value>
+    <Value val="0x01">First fragment of fragmented data</Value>
+    <Value val="0x02">Last fragment of fragmented data</Value>
+    <Value val="0x03">Complete data</Value>
+  </Values>
+
+  <Command name="HCI_LE_Set_Periodic_Advertising_Data" type="sc" opcode="0x203F">
+    <Param type="u" size="1">
+      <Name>Advertising_Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify an advertising set</Desc>
+    </Param>
+    <Param type="u" size="1" valtype="AE_periodic_operation">
+       <Name>Operation</Name>
+       <Default>0x03</Default>
+       <Desc>Type of operation used to send the payload in the controller</Desc>
+    </Param>
+    <Param type="u" size="1">
+       <Name>Advertising_Data_Length</Name>
+       <Default>0x10</Default>
+       <Desc>The number of octets in the Advertising Data parameter (0-252)</Desc>
+    </Param>
+    <Param type="x" size="input">
+       <Name>Advertising_Data</Name>
+       <Default>"00:01:02:03:04:05:06:07:08:09:0A:0B:0C:0D:0E:0F"</Default>
+       <Desc>Periodic advertising data, This parameter has a variable length.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_Set_Periodic_Advertising_Enable" type="sc" opcode="0x2040">
+    <Param type="u" size="1">
+      <Name>Enable</Name>
+      <Default>0x00</Default>
+      <Desc>request the Controller to enable or disable the periodic advertising</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Advertising_Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify an advertising set</Desc>
+    </Param>
     <Param type="R">
       <Name>HCI_Command_Complete_Event</Name>
     </Param>
@@ -9711,9 +9920,470 @@
     </Param>
   </Command>
 
+  <Values name="AE_periodic_sync_filter_policy" type="enum">
+    <Value val="0x00">Not Use the Periodic Advertiser List</Value>
+    <Value val="0x01">Use the Periodic Advertiser List</Value>
+  </Values>
+  <Values name="AE_periodic_sync_Advertising_Address_Type" type="enum">
+    <Value val="0x00">Public Device Address</Value>
+    <Value val="0x01">Random Device Address</Value>
+  </Values>
 
+  <Command name="HCI_LE_Periodic_Advertising_Creat_Sync" type="sc" opcode="0x2044">
+    <Param type="u" size="1" valtype="AE_periodic_sync_filter_policy">
+      <Name>Filter_Policy</Name>
+      <Default>0x00</Default>
+      <Desc>The Filter_Policy parameter is used to determine whether the Periodic Advertiser List is used.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Advertising_SID</Name>
+      <Default>0x00</Default>
+      <Desc>Advertising SID subfield in the ADI field used to identify the Periodic Advertising</Desc>
+    </Param>
+    <Param type="u" size="1" valtype="AE_periodic_sync_Advertising_Address_Type">
+      <Name>Advertising_Address_Type</Name>
+      <Default>0x0</Default>
+      <Desc>Advertising_Address_Type</Desc>
+    </Param>
+    <Param type="b" size="6">
+       <Name>Advertiser_Address</Name>
+      <Default>"00:01:02:03:04:05"</Default>
+       <Desc>Advertiser_Address</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Skip</Name>
+      <Default>0x0000</Default>
+      <Desc>The number of periodic advertising packets that can be skipped after a successful receive</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Sync_Timeout</Name>
+      <Default>0x000A</Default>
+      <Desc>Synchronization timeout for the periodic advertising; Range: 0x000A to 0x4000; Time = N*10 ms; Time Range: 100 ms to 163.84 s</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Unused</Name>
+      <Default>0x00</Default>
+      <Desc>This value must be used by the Host</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+  </Command>
 
+  <Command name="HCI_LE_Periodic_Advertising_Creat_Sync_Cancel" type="sc" opcode="0x2045">
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_Periodic_Advertising_Terminate_Sync" type="sc" opcode="0x2046">
+    <Param type="u" size="2">
+      <Name>Sync_Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Sync_Handle to be used to identify the periodic advertiser; Range: 0x0000-0x0EFF</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+  </Command>
+
+  <!-- V5.2 - Isochronous Channel-->
+  <Command name="HCI_LE_Read_ISO_Tx_Sync" type="sc" opcode="0x2061">
+    <Param type="h" size="2">
+      <Name>Connection Handle</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+    <Param cond="status!=0x01">
+      <Param type="h" size="2">
+        <Name>Handle</Name>
+        <Default>0x0000</Default>
+        <Desc>Connection handle of the CIS or BIS</Desc>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Packet_Sequence_Number</Name>
+        <Desc>The packet sequence number of an SDU.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Time_Stamp</Name>
+        <Desc>The time stamp, in microseconds, of the reference anchor point of a transmitted SDU.</Desc>
+      </Param>
+      <Param type="u" size="3">
+        <Name>Time_Offset</Name>
+        <Desc>The time offset, in microseconds, that is associated with a transmitted SDU.</Desc>
+      </Param>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_Create_BIG" type="sc" opcode="0x2068">
+    <Param type="u" size="1">
+      <Name>BIS Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the BIG.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Advertising Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the periodic advertising train(0x00 to 0xEF).</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Num BIS</Name>
+      <Default>0x01</Default>
+      <Desc>Total number of BISes in the BIG(0x01 to 0x1F).</Desc>
+    </Param>
+    <Param type="u" size="3">
+      <Name>SDU Interval</Name>
+      <Default>0x000100</Default>
+      <Desc>The interval, in microseconds, of periodic SDUs(0x000100 to 0x0FFFFF).</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Max SDU</Name>
+      <Default>0x0001</Default>
+      <Desc>Maximum size of an SDU, in octets(0x0001 to 0x0FFF).</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Max Transport Latency</Name>
+      <Default>0x0000</Default>
+      <Desc>Maximum time, in milliseconds, for transmitting an SDU(0x0000 to 0x0FA0).</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>RTN</Name>
+      <Default>0x00</Default>
+      <Desc>The maximum number of times that every BIS Data PDU should be retransmitted(0x00 to 0xFF).</Desc>
+    </Param>
+    <Param type="u" size="1" valtype="PhyParameterMask">
+      <Name>PHY</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1" valtype="IsoPacking">
+      <Name>Packing</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1" valtype="IsoFraming">
+      <Name>Framing</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1" valtype="IsoEncryption">
+      <Name>Encryption</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="x" size="16">
+      <Name>Broadcast Code</Name>
+      <Default>"00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"</Default>
+      <Desc>The code used to derive the session key that is used to encrypt and decrypt BIS payloads.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Status_Event</Name>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_Create_BIG_Test" type="sc" opcode="0x2069">
+    <Param type="u" size="1">
+      <Name>BIG Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the BIG.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Advertising Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the periodic advertising train.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Num BIS</Name>
+      <Default>0x01</Default>
+      <Desc>Total number of BISes in the BIG(0x01 to 0x1F).</Desc>
+    </Param>
+    <Param type="u" size="3">
+      <Name>SDU Interval</Name>
+      <Default>0x000100</Default>
+      <Desc>The interval, in microseconds, of periodic SDUs(0x000100 to 0x0FFFFF).</Desc>
+    </Param>
+    <Param type="u" size="2">
+        <Name>ISO interval</Name>
+        <Default>0x0004</Default>
+    </Param>
+    <Param type="u" size="1">
+        <Name>NSE</Name>
+        <Default>0x0001</Default>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Max SDU</Name>
+      <Default>0x0001</Default>
+      <Desc>Maximum size of an SDU, in octets(0x0001 to 0x0FFF).</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Max PDU</Name>
+      <Default>0x0001</Default>
+      <Desc>Maximum size of an PDU, in octets(0x0001 to 0x0FFF).</Desc>
+    </Param>
+    <Param type="u" size="1" valtype="PhyParameterMask">
+      <Name>PHY</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1" valType="IsoPacking">
+      <Name>Packing</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1" valType="IsoFraming">
+      <Name>Framing</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1">
+      <Name>BN</Name>
+      <Default>0x01</Default>
+    </Param>
+    <Param type="u" size="1">
+      <Name>IRC</Name>
+      <Default>0x01</Default>
+    </Param>
+    <Param type="u" size="1">
+      <Name>PTO</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="u" size="1" valtype="IsoEncryption">
+      <Name>Encryption</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="x" size="16">
+      <Name>Broadcast Code</Name>
+      <Default>"00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"</Default>
+      <Desc>The code used to derive the session key that is used to encrypt and decrypt BIS payloads.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Status_Event</Name>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_Terminate_BIG" type="sc" opcode="0x206A">
+    <Param type="u" size="1">
+      <Name>BIG Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the BIG.</Desc>
+    </Param>
+    <Param type="u" size="1" valtype="Status">
+      <Name>Reason</Name>
+      <Default>0x00</Default>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_Create_Sync" type="sc" opcode="0x206B">
+    <Param type="u" size="1">
+      <Name>BIG Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the BIG.</Desc>
+    </Param>
+    <Param type="u" size="2">
+      <Name>Sync Handle</Name>
+      <Default>0x0000</Default>
+      <Desc>Identifier of the periodic advertising train.</Desc>
+    </Param>
+    <Param type="u" size="1" valtype="IsoEncryption">
+      <Name>Encryption</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="x" size="16">
+      <Name>Broadcast Code</Name>
+      <Default>"00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"</Default>
+      <Desc>The code used to derive the session key that is used to encrypt and decrypt BIS payloads.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>MSE</Name>
+      <Default>0x00</Default>
+      <Desc>The Controller can schedule reception of any number of subevents up to NSE.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>BIG_Sync_Timeout</Name>
+      <Default>0x00</Default>
+      <Desc>Synchronization timeout for the BIG /Size: 2 octets /Range: 0x000A to 0x4000 /Time = N*10 ms /Time Range: 100 ms to 163.84 s.</Desc>
+    </Param>
+      <Param type="u" size="1" lable="Count">
+        <Name>Num BIS</Name>
+      </Param>
+      <Param array="Count">
+        <Param type="u" size="1">
+          <Name>BIS Handle</Name>
+        </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_BIG_Terminate_Sync" type="sc" opcode="0x206A">
+    <Param type="u" size="1">
+      <Name>BIG Handle</Name>
+      <Default>0x00</Default>
+      <Desc>Used to identify the BIG.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+    <Param cond="status!=0x01">
+      <Param type="u" size="1">
+        <Name>BIG_Handle</Name>
+        <Default>0x00</Default>
+        <Desc>Local identifier of the BIG</Desc>
+      </Param>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_ISO_Transmit_Test" type="sc" opcode="0x2070">
+    <Param type="h" size="2">
+      <Name>Handle</Name>
+      <Default>0x0000</Default>
+      <Desc>Connection handle of the CIS or BIS.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Payload Type</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+    <Param cond="status!=0x01">
+      <Param type="h" size="2">
+        <Name>Handle</Name>
+        <Default>0x0000</Default>
+      <Desc>Connection handle of the CIS or BIS.</Desc>
+      </Param>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_ISO_Receive_Test" type="sc" opcode="0x2071">
+    <Param type="h" size="2">
+      <Name>Handle</Name>
+      <Default>0x0000</Default>
+      <Desc>Connection handle of the CIS or BIS.</Desc>
+    </Param>
+    <Param type="u" size="1">
+      <Name>Payload Type</Name>
+      <Default>0x00</Default>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+    <Param cond="status!=0x01">
+      <Param type="h" size="2">
+        <Name>Handle</Name>
+        <Default>0x0000</Default>
+      <Desc>Connection handle of the CIS or BIS.</Desc>
+      </Param>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_ISO_Read_Test" type="sc" opcode="0x2072">
+    <Param type="h" size="2">
+      <Name>Handle</Name>
+      <Default>0x0000</Default>
+      <Desc>Connection handle of the CIS or BIS.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+    <Param cond="status!=0x01">
+      <Param type="h" size="2">
+        <Name>Handle</Name>
+        <Default>0x0000</Default>
+        <Desc>Connection handle of the CIS or BIS.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Received_Packet_Count</Name>
+        <Default>0x00000000</Default>
+        <Desc>Number in the Received_Packet_Count.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Missed_Packet_Count</Name>
+        <Default>0x00000000</Default>
+        <Desc>Number in the Missed_Packet_Count.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Failed_Packet_Count</Name>
+        <Default>0x00000000</Default>
+        <Desc>Number in the Failed_Packet_Count.</Desc>
+      </Param>
+    </Param>
+  </Command>
+
+  <Command name="HCI_LE_ISO_Test_End" type="sc" opcode="0x2073">
+    <Param type="h" size="2">
+      <Name>Handle</Name>
+      <Default>0x0000</Default>
+      <Desc>Connection handle of the CIS or BIS.</Desc>
+    </Param>
+    <Param type="R">
+      <Name>HCI_Command_Complete_Event</Name>
+    </Param>
+    <Param type="u" size="1" valtype="Status" label="status">
+      <Name>Status</Name>
+      <Default>0x00</Default>
+      <Desc>Command Status</Desc>
+    </Param>
+    <Param cond="status!=0x01">
+      <Param type="h" size="2">
+        <Name>Handle</Name>
+        <Default>0x0000</Default>
+        <Desc>Connection handle of the CIS or BIS.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Received_Packet_Count</Name>
+        <Default>0x00000000</Default>
+        <Desc>Number in the Received_Packet_Count.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Missed_Packet_Count</Name>
+        <Default>0x00000000</Default>
+        <Desc>Number in the Missed_Packet_Count.</Desc>
+      </Param>
+      <Param type="u" size="4">
+        <Name>Failed_Packet_Count</Name>
+        <Default>0x00000000</Default>
+        <Desc>Number in the Failed_Packet_Count.</Desc>
+      </Param>
+    </Param>
+  </Command>
+
+  <!-- ================================================================== -->
   <Command name="MACRO Command" type="gb"                      />
+  <!-- ================================================================== -->
 
   <Command name="MACRO_HCI_EXT_LE_SetExtAdvDataCmd" type="ae_cc">
     <Macro><![CDATA[
@@ -9916,6 +10586,7 @@
         <Desc>Note: The macro will overwrite this data!!!</Desc>
     </Param>
   </Command>
+
 
   <!-- ================================================================== -->
   <Command name="HCI LE Data" type="gb" />
@@ -10545,6 +11216,78 @@
       </Param>
     </Param>
 
+    <!-- LE Periodic Advertising Sync Established Event -->
+    <Param cond="Event_Type==0x0E">
+      <Param type="u" size="1" valtype="Status">
+        <Name>Status</Name>
+        <Default>0x00</Default>
+        <Desc>Status</Desc>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Sync_Handle</Name>
+        <Desc>Sync_Handle to be used to identify the periodic advertiser; Range: 0x0000-0x0EFF</Desc>
+      </Param>
+      <Param type="u" size="1">
+        <Name>Advertising_SID</Name>
+        <Desc>Value of the Advertising SID subfield in the ADI field of the PDU</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="HCI_LE_Address_Type">
+        <Name>Advertiser_Address_Type</Name>
+      </Param>
+      <Param type="b" size="6">
+        <Name>Advertiser_Address</Name>
+      </Param>
+      <Param type="u" size="1" valtype="HCI_LE_AE_secPHY">
+        <Name>Advertiser_PHY</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Periodic_Advertising_Interval</Name>
+        <Desc>Periodic_advertising interval; Range: 0x0006 to 0xFFFF; Time = N * 1.25 ms; Time Range: 7.5 ms to 81.91875 s</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="HCI_LE_AE_clock_accuracy">
+        <Name>Advertiser_Clock_Accuracy</Name>
+      </Param>
+    </Param>
+
+    <!-- LE Periodic Advertising Report Event -->
+    <Param cond="Event_Type==0x0F">
+      <Param type="u" size="2">
+        <Name>Sync_Handle</Name>
+        <Desc>Sync_Handle to be used to identify the periodic advertiser from which data has been received. Range: 0x0000-0x0EFF</Desc>
+      </Param>
+      <Param type="u" size="1">
+        <Name>Tx_Power</Name>
+        <Desc>Size: 1 Octet (signed integer); Range: -127 ≤ N ≤ +126; Units: dBm</Desc>
+      </Param>
+      <Param type="u" size="1">
+        <Name>RSSI</Name>
+        <Desc>Size: 1 Octet (signed integer); Range: -127 ≤ N ≤ +20; Units: dBm</Desc>
+      </Param>
+      <Param type="u" size="1">
+        <Name>Unused</Name>
+        <Desc>This value must be used by the Controller</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="HCI_LE_AE_data_status">
+        <Name>Data_Status</Name>
+      </Param>
+      <Param type="u" size="1" label="DataLength">
+        <Name>Data_Length</Name>
+        <Desc>Length of the Data field</Desc>
+      </Param>
+      <Param type="x" size="DataLength">
+        <Name>Data</Name>
+        <Desc>Data received from a Periodic Advertising packet</Desc>
+      </Param>
+    </Param>
+
+    <!-- LE Periodic Advertising Sync Lost Event -->
+    <Param cond="Event_Type==0x10">
+      <Param type="u" size="2">
+        <Name>Sync_Handle</Name>
+        <Desc>Sync_Handle to be used to identify the periodic advertiser. Range: 0x0000-0x0EFF</Desc>
+      </Param>
+    </Param>
+
     <!-- LE Scan Timeout Event -->
     <Param cond="Event_Type==0x011">
     </Param>
@@ -10594,6 +11337,185 @@
       </Param>
       <Param type="u" size="1" valtype="ChanSelectAlgo_Type">
         <Name>Channel Algorithm</Name>
+      </Param>
+    </Param>
+
+    <!-- CIS Established Event -->
+    <Param cond="Event_Type==0x19">
+      <Param type="u" size="1">
+        <Name>Status</Name>
+        <Default>0x00</Default>
+        <Desc>The CIS is successfully established.</Desc>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Connection Handle</Name>
+      </Param>
+      <Param type="u" size="3">
+        <Name>CIG Sync Delay</Name>
+        <Desc>The maximum time, in microseconds, for transmission of PDUs of all CISes in a CIG event.</Desc>
+      </Param>
+      <Param type="u" size="3">
+        <Name>CIS Sync Delay</Name>
+        <Desc>The maximum time, in microseconds, for transmission of PDUs of the specified CIS in a CIG event.</Desc>
+      </Param>
+      <Param type="u" size="3">
+        <Name>Transport Latency M to S</Name>
+        <Desc>The maximum time, in microseconds, for transmission of SDUs of all CISes from master to slave.</Desc>
+      </Param>
+      <Param type="u" size="3">
+        <Name>Transport Latency S to M</Name>
+      </Param>
+      <Param type="u" size="1" valtype="PhyParameterMask">
+        <Name>PHY M to S</Name>
+      </Param>
+      <Param type="u" size="1" valtype="PhyParameterMask">
+        <Name>PHY S to M</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>NSE</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>BN M To S</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>BN S To M</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>FT M To S</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>FT S To M</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Max PDU M To S</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Max PDU S To M</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>ISO interval</Name>
+      </Param>
+    </Param>
+
+    <!-- CIS Request Event  -->
+    <Param cond="Event_Type==0x1A">
+      <Param type="h" size="2">
+        <Name>ACL Connection Handle</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>CIS Connection Handle</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>CIG ID</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>CIS ID</Name>
+      </Param>
+    </Param>
+
+    <!-- Create BIG Complete Event  -->
+    <Param cond="Event_Type==0x1B">
+      <Param type="u" size="1">
+        <Name>Status</Name>
+        <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1">
+        <Name>BIG Handle</Name>
+      </Param>
+      <Param type="u" size="3">
+        <Name>BIG Sync Delay</Name>
+      </Param>
+      <Param type="u" size="3">
+        <Name>Transport Latency BIG</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>PHY</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>NSE</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>BN</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>PTO</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>IRC</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Max PDU</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>ISO Interval</Name>
+      </Param>
+      <Param type="u" size="1" lable="Count">
+        <Name>Num BIS</Name>
+      </Param>
+      <Param array="Count">
+        <Param type="h" size="2">
+          <Name>Connection Handle</Name>
+        </Param>
+      </Param>
+    </Param>
+
+    <!-- Terminate BIG Complete Event  -->
+    <Param cond="Event_Type==0x1C">
+      <Param type="u" size="1">
+        <Name>BIG Handle</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+        <Name>Reason</Name>
+      </Param>
+    </Param>
+
+    <!-- BIG Sync Established Event  -->
+    <Param cond="Event_Type==0x1D">
+      <Param type="u" size="1">
+        <Name>Status</Name>
+        <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1">
+        <Name>BIG Handle</Name>
+      </Param>
+      <Param type="u" size="3">
+        <Name>Transport Latency BIG</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>NSE</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>BN</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>PTO</Name>
+      </Param>
+      <Param type="u" size="1">
+        <Name>IRC</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>Max PDU</Name>
+      </Param>
+      <Param type="u" size="2">
+        <Name>ISO Interval</Name>
+      </Param>
+      <Param type="u" size="1" lable="Count">
+        <Name>Num BIS</Name>
+      </Param>
+      <Param array="Count">
+        <Param type="h" size="2">
+          <Name>Connection Handle</Name>
+        </Param>
+      </Param>
+    </Param>
+
+    <!-- BIG Sync Lost Event  -->
+    <Param cond="Event_Type==0x1E">
+      <Param type="u" size="1">
+        <Name>BIG Handle</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+        <Name>Reason</Name>
       </Param>
     </Param>
 

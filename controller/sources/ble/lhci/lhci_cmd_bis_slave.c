@@ -50,6 +50,7 @@ bool_t lhciSlvBisDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
   switch (pHdr->opCode)
   {
     case HCI_OPCODE_LE_CREATE_BIG:
+    SEGGER_RTT_WriteString(0, "[Slv-BIS]: HCI_OPCODE_LE_CREATE_BIG\r\n");
     {
       LlCreateBig_t param;
 

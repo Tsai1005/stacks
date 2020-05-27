@@ -125,6 +125,7 @@ void LhciHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
         unsigned int msg = 0;
         do
         {
+            /* SEGGER_RTT_printf(0, "[LL]: lhciCmdTbl[0x%x]\r\n", msg); */
           if (lhciCmdTbl[msg] && lhciCmdTbl[msg](&hdr, pPldBuf))
           {
             break;

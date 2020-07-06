@@ -1495,6 +1495,10 @@
       <Value val="0x1C">LE Terminate BIG Complete Event</Value>
       <Value val="0x1D">LE BIG Sync Established Event</Value>
       <Value val="0x1E">LE BIG Sync Lost Event</Value>
+      <Value val="0x1F">LE Request Peer SCA Complete</Value>
+      <Value val="0x20">LE Path Loss Threshold</Value>
+      <Value val="0x21">LE Transmit Power Reporting</Value>
+      <Value val="0x22">LE BIGInfo Advertising Report</Value>
       <!-- Vendor Specific - Texas Instruments Inc. Only! -->
       <Value val="0x80">LE Scan Request Report Event</Value>
   </Values>
@@ -9940,7 +9944,7 @@
       <Value val="0x01">Random Device Address</Value>
   </Values>
 
-  <Command name="HCI_LE_Periodic_Advertising_Creat_Sync" type="sc" opcode="0x2044">
+  <Command name="HCI_LE_Periodic_Advertising_Create_Sync" type="sc" opcode="0x2044">
       <Param type="u" size="1" valtype="AE_periodic_sync_filter_policy">
           <Name>Filter_Policy</Name>
           <Default>0x00</Default>
@@ -9975,14 +9979,6 @@
           <Name>Unused</Name>
           <Default>0x00</Default>
           <Desc>This value must be used by the Host</Desc>
-      </Param>
-      <Param type="R">
-          <Name>HCI_Command_Complete_Event</Name>
-      </Param>
-      <Param type="u" size="1" valtype="Status" label="status">
-          <Name>Status</Name>
-          <Default>0x00</Default>
-          <Desc>Command Status</Desc>
       </Param>
   </Command>
 
@@ -10415,7 +10411,7 @@
       </Param>
   </Command>
 
-  <Command name="HCI_LE_Create_Sync" type="sc" opcode="0x206B">
+  <Command name="HCI_LE_BIG_Create_Sync" type="sc" opcode="0x206B">
       <Param type="u" size="1">
           <Name>BIG Handle</Name>
           <Default>0x00</Default>
@@ -10440,13 +10436,14 @@
           <Default>0x00</Default>
           <Desc>The Controller can schedule reception of any number of subevents up to NSE.</Desc>
       </Param>
-      <Param type="u" size="1">
+      <Param type="u" size="2">
           <Name>BIG_Sync_Timeout</Name>
-          <Default>0x00</Default>
+          <Default>0x000A</Default>
           <Desc>Synchronization timeout for the BIG /Size: 2 octets /Range: 0x000A to 0x4000 /Time = N*10 ms /Time Range: 100 ms to 163.84 s.</Desc>
       </Param>
       <Param type="u" size="1" lable="Count">
           <Name>Num BIS</Name>
+          <Default>0x01</Default>
       </Param>
       <Param array="Count">
           <Param type="u" size="1">
@@ -11746,7 +11743,49 @@
         </Param>
     </Param>
 
-    <!-- Scan Request Report Event  -->
+    <Param cond="Event_Type==0x22">
+        <Param type="u" size="2">
+            <Name>Sync Handle</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>Num BIS</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>NSE</Name>
+        </Param>
+        <Param type="u" size="2">
+            <Name>ISO interval</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>BN</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>PTO</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>IRC</Name>
+        </Param>
+        <Param type="u" size="2">
+            <Name>Max PDU</Name>
+        </Param>
+        <Param type="u" size="3">
+            <Name>SDU interval</Name>
+        </Param>
+        <Param type="u" size="2">
+            <Name>Max SDU</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>PHY</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>Framing</Name>
+        </Param>
+        <Param type="u" size="1">
+            <Name>Encryption</Name>
+        </Param>
+    </Param>
+
+    <!-- Vendor Scan Request Report Event  -->
     <Param cond="Event_Type==0x80">
         <Param type="u" size="1" valtype="Scan_Request_Report_Event_Type">
             <Name>Report Event Type</Name>

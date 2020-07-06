@@ -44,12 +44,25 @@ Wait_HCI_Command_Complete_LE_Read_Local_Supported_Features_Event 5000, any, HCI_
 
 
 
-Send_HCI_LE_SetExtScanParamsCmd 0x00, 0x00, 0x01, 0x01, "160", "80"
+Send_HCI_LE_SetExtScanParamsCmd 0x00, 0x01, 0x01, 0x01, "160", "80"
 Wait_HCI_Command_Complete_LE_SetExtScanParamsCmd_Event 5000, any, HCI_LE_SetExtScanParamsCmd, 0x00
 
 Send_HCI_LE_SetExtScanEnableCmd 0x01, 0x01, 0x00, 0x00
 Wait_HCI_Command_Complete_LE_SetExtScanEnableCmd_Event 5000, any, HCI_LE_SetExtScanEnableCmd, 0x00
 
-Send_HCI_LE_Periodic_Advertising_Creat_Sync 0x00, 0x01, 0x0, "DD:E7:0E:E7:79:C8", 0x0000, 0x0100, 0x00
-Wait_HCI_Command_Complete_LE_Periodic_Advertising_Creat_Sync_Event 5000, any, HCI_LE_Periodic_Advertising_Creat_Sync, 0x00
+#2 - Setup Periodic Adv Sync
+Send_HCI_LE_Periodic_Advertising_Create_Sync 0x00, 0x01, 0x0, "DD:E7:0E:E7:79:C8", 0x0000, 0x1000, 0x00
+Sleep (10)
+#Wait_HCI_LE_Generic_Report_Event 0000, 0x0E, 0x00, , 1, 0x00, , 0x01, , 
+
+
+#Send_HCI_LE_SetExtScanEnableCmd 0x00, 0x01, 0x00, 0x00
+#Wait_HCI_Command_Complete_LE_SetExtScanEnableCmd_Event 5000, any, HCI_LE_SetExtScanEnableCmd, 0x00
+
+#Wait_HCI_LE_Generic_Report_Event 0000, 0x22, , , , , , , , , , , , , 
+
+Send_HCI_LE_BIG_Create_Sync 0x01, 0x0000, 0x00, "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00", 0x00, 0x1000, 0x01, 1
+
+
+
 

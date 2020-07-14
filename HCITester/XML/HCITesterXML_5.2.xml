@@ -605,6 +605,7 @@
         <Value val="0x01">The Controller should not fragment or should minimize fragmentation of data</Value>
     </Values>
 
+
     <!-- ================================================================== -->
     <!--                            Mask values                             -->
     <!-- ================================================================== -->
@@ -761,32 +762,6 @@
         <Value val="0x01">1M Phy</Value>
         <Value val="0x02">2M Phy</Value>
         <Value val="0x04">Coded Phy</Value>
-    </Values>
-
-    <Values name="IsoPacking" type="enum">
-        <Value val="0x00">Sequential</Value>
-        <Value val="0x01">Interleaved</Value>
-    </Values>
-
-    <Values name="IsoFraming" type="enum">
-        <Value val="0x00">Unframed</Value>
-        <Value val="0x01">Framed</Value>
-    </Values>
-
-    <Values name="IsoEncryption" type="enum">
-        <Value val="0x00">Unencrypted</Value>
-        <Value val="0x01">Encrypted</Value>
-    </Values>
-
-    <Values name="ClockAccuracy" type="enum">
-        <Value val="0x00">251ppm to 500ppm</Value>
-        <Value val="0x01">151ppm to 250ppm</Value>
-        <Value val="0x02">101ppm to 150ppm</Value>
-        <Value val="0x03">76ppm to 100ppm</Value>
-        <Value val="0x04">51ppm to 75ppm</Value>
-        <Value val="0x05">31ppm to 50ppm</Value>
-        <Value val="0x06">21ppm to 30ppm</Value>
-        <Value val="0x07">0ppm to 20ppm</Value>
     </Values>
 
     <!-- ******************************************************* -->
@@ -1270,6 +1245,48 @@
       <Value val="0x00FD">Invalid Event Type!</Value>
       <Value val="0x00FE">Invalid Event Type!</Value>
       <Value val="0x00FF">Invalid Event Type!</Value>
+  </Values>
+
+  <Values name="IsoPacking" type="enum">
+      <Value val="0x00">Sequential</Value>
+      <Value val="0x01">Interleaved</Value>
+  </Values>
+
+  <Values name="IsoFraming" type="enum">
+      <Value val="0x00">Unframed</Value>
+      <Value val="0x01">Framed</Value>
+  </Values>
+
+  <Values name="IsoEncryption" type="enum">
+      <Value val="0x00">Unencrypted</Value>
+      <Value val="0x01">Encrypted</Value>
+  </Values>
+
+  <Values name="ClockAccuracy" type="enum">
+      <Value val="0x00">251ppm to 500ppm</Value>
+      <Value val="0x01">151ppm to 250ppm</Value>
+      <Value val="0x02">101ppm to 150ppm</Value>
+      <Value val="0x03">76ppm to 100ppm</Value>
+      <Value val="0x04">51ppm to 75ppm</Value>
+      <Value val="0x05">31ppm to 50ppm</Value>
+      <Value val="0x06">21ppm to 30ppm</Value>
+      <Value val="0x07">0ppm to 20ppm</Value>
+  </Values>
+
+  <Values name="StandardCodecId" type="enum">
+      <Value val="0x00">Todo</Value>
+  </Values>
+
+  <Values name="CodecTransport" type="mask">
+      <Value val="0x01">Codec supported over BR/EDR ACL</Value>
+      <Value val="0x02">Codec supported over BR/EDR SCO and eSCO</Value>
+      <Value val="0x04">Codec supported over LE CIS</Value>
+      <Value val="0x08">Codec supported over LE BIS</Value>
+  </Values>
+
+  <Values name="Direction" type="enum">
+      <Value val="0x00">Input (Host to Controller)</Value>
+      <Value val="0x01">Output (Controller to Host)</Value>
   </Values>
 
   <Values name="Gap_AdvScanEvent" type="mask">
@@ -8068,6 +8085,172 @@
       </Param>
   </Command>
 
+  <Command name="HCI_Read_Local_Supported_Codecs_V1" type="sc" opcode="0x100B">
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Status</Desc>
+      </Param>
+      <Param type="u" size="1" label="count">
+          <Name>Num_Supported_Standard_Codecs</Name>
+          <Desc>Total number of codecs supported.</Desc>
+      </Param>
+      <Param array="count">
+          <Param type="u" size="1" valtype="StandardCodecId">
+              <Name>Standard_Codec_ID</Name>
+              <Desc>An array of codec identifiers. See Assigned Numbers for Coding Format.</Desc>
+          </Param>
+      </Param>
+      <Param type="u" size="1" label="count">
+          <Name>Num_Supported_Vendor_Specific_Codecs</Name>
+          <Desc>Total number of vendor-specific codecs supported.</Desc>
+      </Param>
+      <Param array="count">
+          <Param type="u" size="2" valtype="CompID">
+              <Name>Vendor_Specific_Codec_ID</Name>
+              <Desc>Company ID, see Assigned Numbers for Company Identifier.</Desc>
+          </Param>
+          <Param type="u" size="2">
+              <Name>Vendor_Specific_Codec_ID_H</Name>
+              <Desc>Vendor-defined codec ID.</Desc>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_Read_Local_Supported_Codecs_V2" type="sc" opcode="0x100D">
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Status</Desc>
+      </Param>
+      <Param type="u" size="1" label="count">
+          <Name>Num_Supported_Standard_Codecs</Name>
+          <Desc>Total number of codecs supported.</Desc>
+      </Param>
+      <Param array="count">
+          <Param type="u" size="1" valtype="StandardCodecId">
+              <Name>Standard_Codec_ID</Name>
+              <Desc>An array of codec identifiers. See Assigned Numbers for Coding Format.</Desc>
+          </Param>
+          <Param type="u" size="1" valtype="CodecTransport">
+              <Name>Standard_Codec_Transport</Name>
+          </Param>
+      </Param>
+
+      <Param type="u" size="1" label="count">
+          <Name>Num_Supported_Vendor_Specific_Codecs</Name>
+          <Desc>Total number of vendor-specific codecs supported.</Desc>
+      </Param>
+      <Param array="count">
+          <Param type="u" size="2" valtype="CompID">
+              <Name>Vendor_Specific_Codec_ID</Name>
+              <Desc>Company ID, see Assigned Numbers for Company Identifier.</Desc>
+          </Param>
+          <Param type="u" size="2">
+              <Name>Vendor_Specific_Codec_ID_H</Name>
+              <Desc>Vendor-defined codec ID.</Desc>
+          </Param>
+          <Param type="u" size="1" valtype="CodecTransport">
+              <Name>Vendor_Specific_Codec_Transport</Name>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_Read_Local_Supported_Codec_Capabilities" type="sc" opcode="0x100E">
+      <Param type="u" size="1">
+          <Name>Codec_ID-Coding Format</Name>
+          <Desc>See Assigned Numbers for Coding Format.</Desc>
+      </Param>
+      <Param type="u" size="2" valtype="CompID">
+          <Name>Codec_ID-Company ID</Name>
+          <Desc>Company ID, see Assigned Numbers for Company Identifier.</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Codec_ID-VS ID</Name>
+          <Desc>Vendor-defined codec ID.</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CodecTransport">
+          <Name>Logical_Transport_Type</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Direction">
+          <Name>Direction</Name>
+      </Param>
+
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Status</Desc>
+      </Param>
+      <Param type="u" size="1" label="count">
+          <Name>Num_Codec_Capabilities</Name>
+          <Desc>Total number of codec capabilities returned.</Desc>
+      </Param>
+      <Param array="count">
+          <Param type="u" size="1" label="Length">
+              <Name>Codec_Capability_Length</Name>
+              <Desc>Length of the Codec_Capability field.</Desc>
+          </Param>
+          <Param array="Length">
+              <Param type="u" size="1">
+                  <Name>Codec_Capability_Length octets of codec-specific capability data</Name>
+              </Param>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_Read_Local_Supported_Controller_Delay" type="sc" opcode="0x100F">
+      <Param type="u" size="1">
+          <Name>Codec_ID-Coding Format</Name>
+          <Desc>See Assigned Numbers for Coding Format.</Desc>
+      </Param>
+      <Param type="u" size="2" valtype="CompID">
+          <Name>Codec_ID-Company ID</Name>
+          <Desc>Company ID, see Assigned Numbers for Company Identifier.</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Codec_ID-VS ID</Name>
+          <Desc>Vendor-defined codec ID.</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CodecTransport">
+          <Name>Logical_Transport_Type</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Direction">
+          <Name>Direction</Name>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Codec_Configuration_Length</Name>
+      </Param>
+      <Param type="x" size="input">
+          <Name>Codec_Configuration</Name>
+      </Param>
+
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="3">
+          <Name>Min_Controller_Delay</Name>
+          <Desc>Minimum Controller delay in microseconds for the specified configuration</Desc>
+      </Param>
+      <Param type="u" size="3">
+          <Name>Max_Controller_Delay</Name>
+          <Desc>Maximum Controller delay in microseconds for the specified configuration</Desc>
+      </Param>
+  </Command>
+
   <!-- OGF 5 =============================================================== -->
   <Command name="HCI Status Parameters" type="gb"                             />
   <!-- ===================================================================== -->
@@ -10452,9 +10635,32 @@
       </Param>
   </Command>
 
-  <Command name="HCI_LE_BIG_Terminate_Sync" type="sc" opcode="0x206A">
+  <Command name="HCI_LE_BIG_Terminate_Sync" type="sc" opcode="0x206C">
       <Param type="u" size="1">
           <Name>BIG Handle</Name>
+          <Default>0x00</Default>
+          <Desc>Used to identify the BIG.</Desc>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status" label="status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param cond="status!=0x01">
+          <Param type="u" size="1">
+              <Name>BIG_Handle</Name>
+              <Default>0x00</Default>
+              <Desc>Local identifier of the BIG</Desc>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Seetup_ISO_Data_Path" type="sc" opcode="0x206E">
+      <Param type="u" size="1">
+          <Name>Conn Handle</Name>
           <Default>0x00</Default>
           <Desc>Used to identify the BIG.</Desc>
       </Param>

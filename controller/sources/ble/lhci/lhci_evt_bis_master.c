@@ -159,6 +159,7 @@ bool_t lhciMstBisEncodeEvtPkt(LlEvt_t *pEvt)
       break;
 
     case LL_BIG_INFO_ADV_REPORT_IND:
+      SEGGER_RTT_WriteString(0, "[BIG-EVT]: LL_BIG_INFO_ADV_REPORT_IND\r\n");
       if ((lhciCb.leEvtMsk & ((uint64_t)(HCI_EVT_MASK_LE_BIG_INFO_ADV_RPT_EVT) << LHCI_BYTE_TO_BITS(4))) &&
          (lhciCb.evtMsk & ((uint64_t)(HCI_EVT_MASK_LE_META) << LHCI_BYTE_TO_BITS(7))))
       {

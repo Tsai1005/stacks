@@ -333,6 +333,8 @@ void hciEvtProcessMsg(uint8_t *pEvt)
     case LL_BIG_INFO_ADV_REPORT_IND:
 
       /* lookup HCI event callback code */
+
+    SEGGER_RTT_printf(0, "[LL_EVT]: hciEvtProcessMsg 0x%x\r\n", pMsg->hdr.event);
       pMsg->hdr.event = hciEvtLookup[pMsg->hdr.event];
 
       if (pMsg->hdr.event == HCI_DISCONNECT_CMPL_CBACK_EVT)

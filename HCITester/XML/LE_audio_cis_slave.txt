@@ -31,46 +31,23 @@ Wait_HCI_Command_Complete_LE_Set_Event_Mask_Event 5000, any, HCI_LE_Set_Event_Ma
 Send_HCI_Read_Local_Version_Information
 Wait_HCI_Command_Complete_Read_Local_Version_Information_Event 5000, any, HCI_Read_Local_Version_Information, 0x00, 0x0b, 0x0000, 0x0b, 0x7e8, 0x0000
 
-#2 - Setup Extended Advertising
-Send_HCI_LE_Read_Local_Supported_Features
-Wait_HCI_Command_Complete_LE_Read_Local_Supported_Features_Event 5000, any, HCI_LE_Read_Local_Supported_Features, 0x00, 
+# Codec 
 
-Send_HCI_LE_SetExtAdvParamsCmd 0x01, 0x0000, 320, 1280, 0x07, 0x0, 0x0, "00:01:02:03:04:05", 0x0, 0, 0x1, 0x0, 0x01, 0x01, 0x0
-Wait_HCI_Command_Complete_LE_SetExtAdvParamsCmd_Event 5000, any, HCI_LE_SetExtAdvParamsCmd, 0x00, 
-
-Send_HCI_LE_SetExtAdvDataCmd 0x01, 0x03, 0x00, 0x10, "00:01:02:03:04:05:06:07:08:09:0A:0B:0C:0D:0E:0F"
-Wait_HCI_Command_Complete_LE_SetExtAdvDataCmd_Event 5000, any, HCI_LE_SetExtAdvDataCmd, 0x00
-
-#Send_HCI_LE_SetExtScanRspDataCmd 0x01, 0x03, 0x00, 0x10, "00:01:02:03:04:05:06:07:08:09:0A:0B:0C:0D:0E:0F"
-#Wait_HCI_Command_Complete_LE_SetExtScanRspDataCmd_Event 5000, any, HCI_LE_SetExtScanRspDataCmd, 0x00
-
-Send_HCI_LE_SetExtAdvEnableCmd 0x01, 0x01, "1", "0", "0"
-Wait_HCI_Command_Complete_LE_SetExtAdvEnableCmd_Event 5000, any, HCI_LE_SetExtAdvEnableCmd, 0x00
-
-Send_HCI_LE_Set_Periodic_Advertising_Parameters 0x01, 0x00A0, 0x00A0, 0x00
-Wait_HCI_Command_Complete_LE_Set_Periodic_Advertising_Parameters_Event 5000, any, HCI_LE_Set_Periodic_Advertising_Parameters, 0x00
-
-Send_HCI_LE_Set_Periodic_Advertising_Enable 0x01, 0x01
-Wait_HCI_Command_Complete_LE_Set_Periodic_Advertising_Enable_Event 5000, any, HCI_LE_Set_Periodic_Advertising_Enable, 0x00
-
-Send_HCI_LE_Set_Periodic_Advertising_Data 0x01, 0x03, 0x10, "00:01:02:03:04:05:06:07:08:09:0A:0B:0C:0D:0E:0F"
-Wait_HCI_Command_Complete_LE_Set_Periodic_Advertising_Data_Event 5000, any, HCI_LE_Set_Periodic_Advertising_Data, 0x00
-
-sleep (3000)
-
-#3 - Setup BIG
-#Send_HCI_LE_Create_BIG 0x01, 0x01, 0x01, 0x001000, 0x0010, 0x0001, 0x02, 0x01, 0x00, 0x00, 0x00, "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
-#Wait_HCI_Command_Status_Event 2000, 0x00, Any, 0x2068
-
-Send_HCI_LE_Create_BIG_Test 0x02, 0x01, 0x01, 0x006000, 0x0010, 0x0002, 0x00F0, 0x0080, 0x01, 0x00, 0x01, 0x01, 0x02, 0x00, 0x00, "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
-Wait_HCI_Command_Status_Event 2000, 0x00, Any, 0x2069
-Send_HCI_LE_Set_CIG_Params 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x0005, 0x0005, 0x02, 2, , , , , , 
-Wait_HCI_Command_Complete_LE_Set_CIG_Params_Event 5000, any, HCI_LE_Set_CIG_Params, 0x00, , , 
+Send_HCI_Read_Local_Supported_Codecs_V2
+Wait_HCI_Command_Complete_Read_Local_Supported_Codecs_V2_Event 5000, any, HCI_Read_Local_Supported_Codecs_V2, 0x00, , 
 
 
 
+Send_HCI_Read_Local_Supported_Codec_Capabilities 0x1, 0x0, 0, 0x08, 0x00
+Wait_HCI_Command_Complete_Read_Local_Supported_Codec_Capabilities_Event 5000, any, HCI_Read_Local_Supported_Codec_Capabilities, 0x00, 
 
-sleep (5000)
+Send_HCI_Read_Local_Supported_Controller_Delay , , , , , , 
+Wait_HCI_Command_Complete_Read_Local_Supported_Controller_Delay_Event 5000, any, HCI_Read_Local_Supported_Controller_Delay, 0x00, , 
 
-Send_HCI_LE_Terminate_BIG 0x01, 0x00
 
+
+#2 - Setup Advertising
+
+#3 - Create connection
+
+#4 - Create CIG & CIS

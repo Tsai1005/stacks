@@ -107,6 +107,8 @@ uint8_t lctrUnpackExtAdvHeader(lctrExtAdvHdr_t *pPdu, uint8_t *pNewFlags, const 
     pPdu->pAcad = pBuf;
     pPdu->acadLen = (pPdu->extHdrLen + 1) - (pBuf - pStartBuf);
     pBuf += pPdu->acadLen;
+
+    /* SEGGER_RTT_printf(0, "[ACAD]: length %d\r\n", pPdu->acadLen); */
   }
   else
   {
@@ -203,6 +205,7 @@ void lctrUnpackAcadBigInfo(LctrAcadBigInfo_t *pBigInfo, const uint8_t *pBuf, uin
   pBigInfo->bigOffsUnits    = (field32 >> 14) & 0x0001;
   pBigInfo->isoInter        = (field32 >> 15) & 0x0FFF;
   pBigInfo->numBis          = (field32 >> 27) & 0x001F;
+  /* SEGGER_RTT_printf(0, "[ADV-AE]: BIGinfo offset : 0x%x / offset unit : 0x%x / isointerval : 0x%x / num BIS : 0x%x\r\n", pBigInfo->bigOffs, pBigInfo->bigOffsUnits, pBigInfo->isoInter, pBigInfo->numBis); */
   BSTREAM_TO_UINT32(field32, pBuf);
   pBigInfo->nse             = (field32 >>  0) & 0x0001F;
   pBigInfo->bn              = (field32 >>  5) & 0x00007;

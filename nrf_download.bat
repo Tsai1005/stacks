@@ -18,3 +18,4 @@ nrfjprog --reset -f nrf52 %TARGET%
 
 echo "**************************"
 
+::pause

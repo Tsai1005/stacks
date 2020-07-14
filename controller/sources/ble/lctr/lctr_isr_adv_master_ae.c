@@ -99,6 +99,7 @@ static void lctrNotifyHostBigInfoAdvReport(uint16_t syncHandle, LctrAcadBigInfo_
 {
   LlBigInfoAdvRptInd_t evt;
 
+    SEGGER_RTT_printf(0, "[BIS]: lctrNotifyHostBigInfoAdvReport \r\n");
   /* Clear not required; all values are written. */
   /* memset(&evt, 0, sizeof(LlBigInfoAdvRptInd_t)); */
 
@@ -119,6 +120,7 @@ static void lctrNotifyHostBigInfoAdvReport(uint16_t syncHandle, LctrAcadBigInfo_
   evt.phy        = pBigInfo->phy;
   evt.framing    = pBigInfo->framing;
   evt.encrypt    = pBigInfo->encrypt;
+
 
   LL_TRACE_INFO1("### LlEvent ###  LL_BIG_INFO_ADV_REPORT_IND, syncHandle=%u", syncHandle);
 
@@ -189,6 +191,9 @@ static inline void lctrGetLocalIdAddr(lctrExtScanCtx_t *pExtScanCtx, uint64_t ta
  *  \return     TRUE if parameter is valid, FALSE otherwise.
  */
 /*************************************************************************************************/
+#define LL_TRACE_WARN1(...)  \
+    SEGGER_RTT_printf(0, __VA_ARGS__)
+
 static bool_t lctrIsBigInfoParamsValid(LctrAcadBigInfo_t *pBigInfo)
 {
   const uint8_t MIN_NUM_BIS = 0x01;
@@ -213,51 +218,61 @@ static bool_t lctrIsBigInfoParamsValid(LctrAcadBigInfo_t *pBigInfo)
   if ((pBigInfo->numBis < MIN_NUM_BIS) || (pBigInfo->numBis > MAX_NUM_BIS))
   {
     LL_TRACE_WARN1("numBis=%u out of range", pBigInfo->numBis);
+    SEGGER_RTT_printf(0, "numBis=%u out of range", pBigInfo->numBis);
     return FALSE;
   }
   if ((pBigInfo->sduInterUsec < MIN_SDU_INTERVAL) || (pBigInfo->sduInterUsec > MAX_SDU_INTERVAL))
   {
     LL_TRACE_WARN1("sduInterval=%u out of range", pBigInfo->sduInterUsec);
+    SEGGER_RTT_printf(0, "sduInterval=%u out of range", pBigInfo->sduInterUsec);
     return FALSE;
   }
   if ((pBigInfo->isoInter < MIN_ISO_INTERVAL) || (pBigInfo->isoInter > MAX_ISO_INTERVAL))
   {
     LL_TRACE_WARN1("isoInterval=%u out of range", pBigInfo->isoInter);
+    SEGGER_RTT_printf(0, "isoInterval=%u out of range", pBigInfo->isoInter);
     return FALSE;
   }
   if ((pBigInfo->nse < MIN_NUM_NSE) || (pBigInfo->nse > MAX_NUM_NSE))
   {
     LL_TRACE_WARN1("NSE=%u out of range", pBigInfo->nse);
+    SEGGER_RTT_printf(0, "NSE=%u out of range", pBigInfo->nse);
     return FALSE;
   }
   if (pBigInfo->maxSdu > MAX_SDU)
   {
     LL_TRACE_WARN1("maxSdu=%u out of range", pBigInfo->maxSdu);
+    SEGGER_RTT_printf(0, "maxSdu=%u out of range", pBigInfo->maxSdu);
     return FALSE;
   }
   if ((pBigInfo->maxPdu < MIN_PDU) || (pBigInfo->maxPdu > MAX_PDU))
   {
     LL_TRACE_WARN1("maxPdu=%u out of range", pBigInfo->maxPdu);
+    SEGGER_RTT_printf(0, "maxPdu=%u out of range", pBigInfo->maxPdu);
     return FALSE;
   }
   if ((pBigInfo->phy - 1) > MAX_PHY)
   {
     LL_TRACE_WARN1("phy=%u out of range", (pBigInfo->phy - 1));
+    SEGGER_RTT_printf(0, "phy=%u out of range", (pBigInfo->phy - 1));
     return FALSE;
   }
   if (pBigInfo->framing > MAX_FRAMING)
   {
     LL_TRACE_WARN1("framing=%u out of range", pBigInfo->framing);
+    SEGGER_RTT_printf(0, "framing=%u out of range", pBigInfo->framing);
     return FALSE;
   }
   if ((pBigInfo->bn < MIN_BN) || (pBigInfo->bn > MAX_BN))
   {
     LL_TRACE_WARN1("BN=%u out of range", pBigInfo->bn);
+    SEGGER_RTT_printf(0, "BN=%u out of range", pBigInfo->bn);
     return FALSE;
   }
   if ((pBigInfo->irc < MIN_IRC) || (pBigInfo->irc > MAX_IRC))
   {
     LL_TRACE_WARN1("IRC=%u out of range", pBigInfo->irc);
+    SEGGER_RTT_printf(0, "BN=%u out of range", pBigInfo->bn);
     return FALSE;
   }
   if (pBigInfo->pto > MAX_PTO)
@@ -310,6 +325,7 @@ static void lctrMstAcadHandler(lctrPerScanCtx_t * const pPerScanCtx)
         pAcadParam->hdr.len = acadLen;
         pAcadParam->hdr.opcode = opcode;
 
+          SEGGER_RTT_printf(0, "[ADV-AE]: LL_ACAD_OPCODE_BIG_INFO 0x%x\r\n", pAcadParam->hdr.state);
         if (pAcadParam->hdr.state == LCTR_ACAD_STATE_DISABLED)
         {
           lctrUnpackAcadBigInfo(&pAcadParam->bigInfo, pBuf, acadLen);
@@ -328,6 +344,7 @@ static void lctrMstAcadHandler(lctrPerScanCtx_t * const pPerScanCtx)
       }
       default:
         LL_TRACE_WARN2("Unknown ACAD received: opcode=%u acadLen=%u", opcode, len);
+          SEGGER_RTT_printf(0, "Unknown ACAD received: opcode=%u acadLen=%u", opcode, len);
 
         break;
     }
@@ -2184,6 +2201,7 @@ uint32_t lctrMstPerScanRxPerAdvPktHandler(BbOpDesc_t *pOp, const uint8_t *pAdvBu
     /* The report will be submitted in the lctrMstPerScanRxPerAdvPktPostHandler */
     return 0;
   }
+  SEGGER_RTT_printf(0, "[ADV-AE]: lctrMstPerScanRxPerAdvPktHandler \r\n");
 
   uint8_t       advHdrLen = pAdvBuf[1];
   const uint8_t *pExtAdvHdr = pAdvBuf + LL_ADV_HDR_LEN;

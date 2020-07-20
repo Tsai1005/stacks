@@ -149,6 +149,7 @@ uint16_t LctrInitConnMem(uint8_t *pFreeMem, uint32_t freeMemSize)
 
   /* Allocate memory. */
   LL_TRACE_INFO2("    RAM: %u x %u bytes -- connection context", pLctrRtCfg->maxConn, sizeof(lctrConnCtx_t));
+  SEGGER_RTT_printf(0, "    RAM: %u x %u bytes -- connection context\r\n", pLctrRtCfg->maxConn, sizeof(lctrConnCtx_t));
   pLctrConnTbl = (lctrConnCtx_t *)pAvailMem;
   pAvailMem += sizeof(lctrConnCtx_t) * pLctrRtCfg->maxConn;
 
@@ -209,6 +210,7 @@ uint8_t LctrValidateConnSpec(const LlConnSpec_t *pConnSpec)
        (pConnSpec->connIntervalMin > HCI_CONN_INTERVAL_MAX) ))
   {
     LL_TRACE_WARN0("LctrValidateConnSpec: Connection interval is invalid");
+    SEGGER_RTT_printf(0, "[LL-init]:LctrValidateConnSpec: Connection interval is invalid\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 
@@ -217,6 +219,7 @@ uint8_t LctrValidateConnSpec(const LlConnSpec_t *pConnSpec)
       ((pConnSpec->connLatency > HCI_CONN_LATENCY_MAX)))
   {
     LL_TRACE_WARN0("LctrValidateConnSpec: connection latency is invalid");
+    SEGGER_RTT_printf(0, "[LL-init]:LctrValidateConnSpec: connection latency is invalid\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 
@@ -229,6 +232,7 @@ uint8_t LctrValidateConnSpec(const LlConnSpec_t *pConnSpec)
        (pConnSpec->supTimeout > HCI_SUP_TIMEOUT_MAX)))
   {
     LL_TRACE_WARN0("LctrValidateConnSpec: supervision timeout is invalid");
+    SEGGER_RTT_printf(0, "[LL-init]:LctrValidateConnSpec: supervision timeout is invalid\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 
@@ -943,6 +947,8 @@ void LctrRxAclComplete(uint8_t numBufs)
 /*************************************************************************************************/
 bool_t LctrIsConnHandleEnabled(uint16_t handle)
 {
+    SEGGER_RTT_printf(0, "LctrIsConnHandleEnabled %d \r\n", pLctrConnTbl[handle].enabled);
+    pLctrConnTbl[handle].enabled = 1;
   return pLctrConnTbl[handle].enabled;
 }
 

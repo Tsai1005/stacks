@@ -164,6 +164,8 @@ bool_t lhciSlvAdvDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
 
     case HCI_OPCODE_LE_SET_ADV_DATA:
       /* coverity[check_return] */
+
+    SEGGER_RTT_WriteString(0, "HCI_OPCODE_LE_SET_ADV_DATA\r\n");
       status = LlSetAdvData(pBuf[0], pBuf + 1);
       paramLen = LHCI_LEN_LE_SET_ADV_DATA_EVT;
       break;

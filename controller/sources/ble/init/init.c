@@ -283,16 +283,19 @@ uint32_t LlInitSetLlRtCfg(const LlRtCfg_t *pLlRtCfg, uint8_t *pFreeMem, uint32_t
 
   #if (BT_VER >= LL_VER_BT_CORE_SPEC_5_2)
     memUsed = LlInitCisMem(pFreeMem, freeMemAvail);
+    SEGGER_RTT_printf(0, "[LL-CIS]: LlInitCisMem 0x%x\r\n", memUsed);
     pFreeMem += memUsed;
     freeMemAvail -= memUsed;
     totalMemUsed += memUsed;
 
     memUsed = LlInitBisMem(pFreeMem, freeMemAvail);
+    SEGGER_RTT_printf(0, "[LL-BIS]: LlInitBisMem 0x%x\r\n", memUsed);
     pFreeMem += memUsed;
     freeMemAvail -= memUsed;
     totalMemUsed += memUsed;
 
     memUsed = LlInitIsoMem(pFreeMem, freeMemAvail);
+    SEGGER_RTT_printf(0, "[LL-ISO]: LlInitIsoMem 0x%x\r\n", memUsed);
     /* pFreeMem += memUsed; */
     /* freeMemAvail -= memUsed; */
     totalMemUsed += memUsed;

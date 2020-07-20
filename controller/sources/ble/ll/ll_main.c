@@ -305,6 +305,7 @@ uint8_t LlSetFeatures(const uint8_t *pFeatures)
   }
 
   lmgrCb.features = newMask;
+  SEGGER_RTT_printf(0, "lmgrCb.features 0x%x", lmgrCb.features);
 
   return LL_SUCCESS;
 }

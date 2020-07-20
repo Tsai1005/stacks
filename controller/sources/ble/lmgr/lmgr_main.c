@@ -61,6 +61,7 @@ void LmgrSetDefaults(void)
   memset(&lmgrCb, 0, sizeof(lmgrCb));
 
   lmgrCb.features = lmgrPersistCb.featuresDefault;
+  SEGGER_RTT_printf(0, "lmgrCb.features 0x%x", lmgrCb.features);
 
   lmgrCb.opModeFlags =
     /* LL_OP_MODE_FLAG_ENA_VER_LLCP_STARTUP | */        /* disabled */

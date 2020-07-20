@@ -216,6 +216,7 @@ bool_t lhciMstCisDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
       uint8_t packing;
       uint8_t framing;
 
+      SEGGER_RTT_printf(0, "HCI_OPCODE_LE_SET_CIG_PARAMS_TEST\r\n");
       BSTREAM_TO_UINT8(cigId, pBuf);
       BSTREAM_TO_UINT24(sduIntervalMToS, pBuf);
       BSTREAM_TO_UINT24(sduIntervalSToM, pBuf);
@@ -263,6 +264,8 @@ bool_t lhciMstCisDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
     }
     case HCI_OPCODE_LE_CREATE_CIS:
     {
+
+      SEGGER_RTT_printf(0, "HCI_OPCODE_LE_CREATE_CIS\r\n");
       BSTREAM_TO_UINT8(numCis, pBuf);
       LlCisCreateCisParams_t createCisParam;
       uint16_t aclHandle[LL_MAX_CIS];

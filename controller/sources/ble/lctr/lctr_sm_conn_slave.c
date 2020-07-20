@@ -154,6 +154,7 @@ void lctrSlvConnExecuteSm(lctrConnCtx_t *pCtx, uint8_t event)
           pCtx->llcpNotifyMask |= 1 << LCTR_PROC_CONN_UPD;
           break;
         case LCTR_CONN_MSG_API_REMOTE_FEATURE:
+          SEGGER_RTT_printf(0, "[Slave]:LCTR_CONN_MSG_API_REMOTE_FEATURE\r\n");
           pCtx->llcpPendMask |= 1 << LCTR_PROC_CMN_FEAT_EXCH;
           pCtx->llcpNotifyMask |= 1 << LCTR_PROC_CMN_FEAT_EXCH;
           break;

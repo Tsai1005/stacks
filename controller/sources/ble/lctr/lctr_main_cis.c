@@ -265,10 +265,13 @@ void lctrFreeCisCtx(lctrCisCtx_t *pCisCtx)
 /*************************************************************************************************/
 lctrCisCtx_t *lctrFindCisByHandle(uint16_t cisHandle)
 {
+    SEGGER_RTT_printf(0, "[CIS]: maxCis 0x%x\r\n", pLctrRtCfg->maxCis);
   for (unsigned int i = 0; i < pLctrRtCfg->maxCis; i++)
   {
     lctrCisCtx_t *pCisCtx = &pLctrCisTbl[i];
 
+    SEGGER_RTT_printf(0, "[CIS]: handle 0x%x 0x%x\r\n", pCisCtx->cisHandle, cisHandle);
+    SEGGER_RTT_printf(0, "[CIS]: enable 0x%x\r\n", pCisCtx->enabled);
     if ((pCisCtx->cisHandle == cisHandle) &&
         (pCisCtx->enabled))
     {
@@ -439,6 +442,7 @@ uint16_t LctrInitCisMem(uint8_t *pFreeMem, uint32_t freeMemSize)
   }
 
   LL_TRACE_INFO2("    RAM: %u x %u bytes -- CIS context", pLctrRtCfg->maxCis, sizeof(lctrCisCtx_t));
+  SEGGER_RTT_printf(0, "    RAM: %u x %u bytes -- CIS context\r\n", pLctrRtCfg->maxCis, sizeof(lctrCisCtx_t));
 
   /* Allocate CIS context memory. */
   pLctrCisTbl = (lctrCisCtx_t *)pAvailMem;

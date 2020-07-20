@@ -182,6 +182,7 @@ uint8_t LlSetAdvData(uint8_t len, const uint8_t *pData)
   WSF_CS_INIT(cs);
 
   LL_TRACE_INFO1("### LlApi ###  LlSetAdvData, len=%u", len);
+    SEGGER_RTT_printf(0, "### LlApi ###  LlSetAdvData, len=%u\r\n", len);
 
   if ((LL_API_PARAM_CHECK == 1) &&
       !LmgrIsLegacyCommandAllowed())
@@ -197,6 +198,8 @@ uint8_t LlSetAdvData(uint8_t len, const uint8_t *pData)
 
   WSF_CS_ENTER(cs);
   memcpy(lmgrSlvAdvCb.advData.buf, pData, len);
+
+  SEGGER_RTT_printf(0, "LlSetAdvData: %s\r\n", lmgrSlvAdvCb.advData.buf);
   lmgrSlvAdvCb.advData.len = len;
   lmgrSlvAdvCb.advData.modified = TRUE;
   WSF_CS_EXIT(cs);

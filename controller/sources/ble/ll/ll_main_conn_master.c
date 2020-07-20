@@ -127,6 +127,7 @@ uint8_t LlCreateConn(const LlInitParam_t *pInitParam, const LlConnSpec_t *pConnS
       !LmgrIsLegacyCommandAllowed())
   {
     LL_TRACE_WARN0("Extended Advertising/Scanning operation enabled; legacy commands not available");
+    SEGGER_RTT_printf(0, "[LL-init]:Extended Advertising/Scanning operation enabled; legacy commands not available\r\n");
     return LL_ERROR_CODE_CMD_DISALLOWED;
   }
 
@@ -136,6 +137,11 @@ uint8_t LlCreateConn(const LlInitParam_t *pInitParam, const LlConnSpec_t *pConnS
       (pInitParam->ownAddrType > addrTypeMax) ||
       (LctrValidateConnSpec(pConnSpec) != LL_SUCCESS))
   {
+    SEGGER_RTT_printf(0, "[LL-init]:pInitParam->scanInterval 0x%x > 0x%x\r\n", pInitParam->scanInterval, scanRangeMax);
+    SEGGER_RTT_printf(0, "[LL-init]:pInitParam->scanWindow 0x%x > 0x%x\r\n", pInitParam->scanWindow, pInitParam->scanInterval);
+    SEGGER_RTT_printf(0, "[LL-init]:scanRangeMin 0x%x > 0x%x\r\n", scanRangeMin , pInitParam->scanWindow);
+    SEGGER_RTT_printf(0, "[LL-init]:pInitParam->filterPolicy 0x%x > 0x%x\r\n", pInitParam->filterPolicy , pInitParam->scanWindow);
+    SEGGER_RTT_printf(0, "[LL-init]:LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 
@@ -143,6 +149,7 @@ uint8_t LlCreateConn(const LlInitParam_t *pInitParam, const LlConnSpec_t *pConnS
       !LmgrIsAddressTypeAvailable(pInitParam->ownAddrType))
   {
     LL_TRACE_WARN1("Address type invalid or not available, ownAddrType=%u", pInitParam->ownAddrType);
+    SEGGER_RTT_printf(0, "[LL-init]:Address type invalid or not available, ownAddrType=%u\r\n", pInitParam->ownAddrType);
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 

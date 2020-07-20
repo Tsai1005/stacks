@@ -428,6 +428,11 @@ void LctrMstConnInit(void)
     lmgrPersistCb.featuresDefault |=
         (LL_FEAT_PAST_SENDER | LL_FEAT_SCA_UPDATE);
   }
+  if (pLctrRtCfg->btVer >= LL_VER_BT_CORE_SPEC_5_2)
+  {
+    lmgrPersistCb.featuresDefault |=
+        (LL_FEAT_ISO_HOST_SUPPORT | LL_FEAT_ISO_SYNC);
+  }
 }
 
 /*************************************************************************************************/

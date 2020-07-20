@@ -353,6 +353,7 @@ void lctrSendFeatureReq(lctrConnCtx_t *pCtx)
 {
   uint8_t *pPdu;
 
+  SEGGER_RTT_printf(0, "lctrSendFeatureReq\r\n");
   if ((pPdu = lctrTxCtrlPduAlloc(LL_FEATURE_PDU_LEN)) != NULL)
   {
     uint8_t *pBuf = pPdu;

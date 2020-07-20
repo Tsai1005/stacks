@@ -25,6 +25,7 @@
 #define WSF_TRACE_H
 
 #include <stdarg.h>
+#include "SEGGER_RTT.h"
 
 #ifdef __cplusplus
 extern "C" {

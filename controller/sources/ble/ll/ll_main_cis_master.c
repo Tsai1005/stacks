@@ -451,10 +451,12 @@ uint8_t LlCreateCis(uint8_t numCis, LlCisCreateCisParams_t *pCreateCisParam)
   uint8_t status = LL_SUCCESS;
 
   LL_TRACE_INFO1("### LlApi ###  LlCreateCis numCis=%d", numCis);
+  SEGGER_RTT_printf(0, "### LlApi ###  LlCreateCis numCis=%d\r\n", numCis);
 
   if ((lmgrCb.features & LL_FEAT_ISO_HOST_SUPPORT) == 0)
   {
     LL_TRACE_INFO0("### LlApi ###  LlCreateCis ISO host support bit is not enabled");
+    SEGGER_RTT_printf(0, "### LlApi ###  LlCreateCis ISO host support bit is not enabled\r\n");
     return LL_ERROR_CODE_CMD_DISALLOWED;
   }
 
@@ -465,11 +467,13 @@ uint8_t LlCreateCis(uint8_t numCis, LlCisCreateCisParams_t *pCreateCisParam)
       if ((pCreateCisParam->pAclHandle[i] >= pLctrRtCfg->maxConn) ||
           !LctrIsConnHandleEnabled(pCreateCisParam->pAclHandle[i]))
       {
+          SEGGER_RTT_printf(0, "LL_ERROR_CODE_UNKNOWN_CONN_ID %d 0x%x / 0x%x\r\n", i, pCreateCisParam->pAclHandle[i], pLctrRtCfg->maxConn);
         return LL_ERROR_CODE_UNKNOWN_CONN_ID;
       }
 
       if (LctrGetRole(pCreateCisParam->pAclHandle[i]) != LL_ROLE_MASTER)
       {
+          SEGGER_RTT_printf(0, "LL_ERROR_CODE_CMD_DISALLOWED\r\n");
         return LL_ERROR_CODE_CMD_DISALLOWED;
       }
     }

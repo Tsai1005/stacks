@@ -91,6 +91,7 @@ void LctrCisSlvInit(void)
   {
     lmgrPersistCb.featuresDefault |= LL_FEAT_CIS_SLAVE_ROLE;
   }
+  SEGGER_RTT_printf(0, "[CIS-slave]:lmgrPersistCb.featuresDefault");
 }
 
 /*************************************************************************************************/

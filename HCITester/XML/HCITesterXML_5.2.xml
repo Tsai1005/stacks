@@ -7968,6 +7968,35 @@
       </Param>
   </Command>
 
+  <Command name="HCI_Configure_Data_Path" type="sc" opcode="0x0C83">
+      <Param type="u" size="1" valtype="Direction">
+          <Name>Data_Path_Direction</Name>
+          <Default>0x0</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Data_Path_ID</Name>
+          <Desc>Logical channel number; the meaning is vendor-specific</Desc>
+          <Default>0x1</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>VS_Config_Length</Name>
+          <Desc>Length of the vendor-specific configuration data</Desc>
+          <Default>0x0</Default>
+      </Param>
+      <Param type="x" size="input">
+          <Name>VS_Config</Name>
+          <Desc>Vendor-specific configuration data for the data path being configured</Desc>
+          <Default>0x0</Default>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Desc>Command status</Desc>
+      </Param>
+  </Command>
+
   <!-- OGF 4 =============================================================== -->
   <Command name="HCI Informational Parameters" type="gb"                      />
   <!-- ===================================================================== -->
@@ -8368,6 +8397,33 @@
       </Param>
   </Command>
 
+  <Command name="HCI_LE_Read_Buffer_Size_V2" type="sc" opcode="0x2060">
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command status</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Data Packet Length</Name>
+          <Desc>Max length of data packets</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Number of Data Packets</Name>
+          <Desc>Number of Data Packets</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Data ISO Packet Length</Name>
+          <Desc>Max length of ISO data packets</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Number of ISO Data Packets</Name>
+          <Desc>Number of ISO Data Packets</Desc>
+      </Param>
+  </Command>
+
   <Command name="HCI_LE_Read_Local_Supported_Features" type="sc" opcode="0x2003">
       <Param type="R">
           <Name>HCI_Command_Complete_Event</Name>
@@ -8476,7 +8532,7 @@
   <Command name="HCI_LE_Set_Scan_Response_Data" type="sc" opcode="0x2009">
       <Param type="u" size="1" label="Scan_response_Data_Length">
           <Name>Data Length</Name>
-          <Default>0x0000</Default>
+          <Default>0x00</Default>
       </Param>
       <Param type="x" size="input">
           <Name>Data</Name>
@@ -10264,7 +10320,7 @@
           <Default>0x0005</Default>
           <Desc>Maximum time, in milliseconds, for an SDU to be transported from the Controller slave to master Controller.(0x0005-0x0FA0)</Desc>
       </Param>
-      <Param type="u" size="1" lable="Count">
+      <Param type="u" size="1" label="Count">
           <Name>CIS_Count</Name>
           <Default>0x01</Default>
           <Desc>Used to identify a CIS.(0x00-0x1F)</Desc>
@@ -10316,7 +10372,7 @@
           <Param type="u" size="1">
               <Name>CIG_ID</Name>
           </Param>
-          <Param type="u" size="1" lable="Count">
+          <Param type="u" size="1" label="Count">
               <Name>CIS_Count</Name>
           </Param>
           <Param array="Count">
@@ -10370,7 +10426,7 @@
           <Name>Framing</Name>
           <Default>0x00</Default>
       </Param>
-      <Param type="u" size="1" lable="Count">
+      <Param type="u" size="1" label="Count">
           <Name>CIS_Count</Name>
           <Default>0x00</Default>
           <Desc>Maximum time, in milliseconds, for an SDU to be transported from the Controller slave to master Controller.(0x0005-0x0FA0)</Desc>
@@ -10430,7 +10486,7 @@
           <Param type="u" size="1">
               <Name>CIG_ID</Name>
           </Param>
-          <Param type="u" size="1" lable="Count">
+          <Param type="u" size="1" label="Count">
               <Name>CIS_Count</Name>
           </Param>
           <Param array="Count">
@@ -10442,6 +10498,74 @@
       </Param>
   </Command>
 
+  <Command name="HCI_LE_Create_CIS" type="sc" opcode="0x2064">
+      <Param type="u" size="1" label="Count">
+          <Name>CIS_Count</Name>
+          <Desc>Total number of CISes to be created.</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="2">
+              <Name>CIS_Connection_Handle</Name>
+              <Desc>List of connection handles of CISes.</Desc>
+          </Param>
+          <Param type="u" size="2">
+              <Name>ACL_Connection_Handle</Name>
+              <Desc>List of connection handles of ACLs.</Desc>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Remove_CIG" type="sc" opcode="0x2065">
+      <Param type="u" size="1">
+          <Name>CIG_ID</Name>
+          <Desc>Identifier of a CIG.</Desc>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status" label="status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param cond="status!=0x01">
+          <Param type="u" size="1">
+              <Name>CIG_ID</Name>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Accept_CIS" type="sc" opcode="0x2066">
+      <Param type="u" size="2">
+          <Name>Connection_Handle</Name>
+          <Desc>Connection handle of the CIS.(0x0000-0x0EFF)</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Reject_CIS_Request" type="sc" opcode="0x2067">
+      <Param type="u" size="2">
+          <Name>Connection_Handle</Name>
+          <Desc>Connection handle of the CIS.(0x0000-0x0EFF)</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Reason</Name>
+          <Desc>Reason the CIS request was rejected.</Desc>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status" label="status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param cond="status!=0x01">
+          <Param type="u" size="2">
+              <Name>Connection_Handle</Name>
+              <Desc>The connection handle of the CIS to be rejected</Desc>
+          </Param>
+      </Param>
+  </Command>
 
   <Command name="HCI_LE_Create_BIG" type="sc" opcode="0x2068">
       <Param type="u" size="1">
@@ -10624,7 +10748,7 @@
           <Default>0x000A</Default>
           <Desc>Synchronization timeout for the BIG /Size: 2 octets /Range: 0x000A to 0x4000 /Time = N*10 ms /Time Range: 100 ms to 163.84 s.</Desc>
       </Param>
-      <Param type="u" size="1" lable="Count">
+      <Param type="u" size="1" label="Count">
           <Name>Num BIS</Name>
           <Default>0x01</Default>
       </Param>
@@ -10658,7 +10782,7 @@
       </Param>
   </Command>
 
-  <Command name="HCI_LE_Seetup_ISO_Data_Path" type="sc" opcode="0x206E">
+  <Command name="HCI_LE_Setup_ISO_Data_Path" type="sc" opcode="0x206E">
       <Param type="u" size="1">
           <Name>Conn Handle</Name>
           <Default>0x00</Default>
@@ -11879,7 +12003,7 @@
         <Param type="u" size="2">
             <Name>ISO Interval</Name>
         </Param>
-        <Param type="u" size="1" lable="Count">
+        <Param type="u" size="1" label="Count">
             <Name>Num BIS</Name>
         </Param>
         <Param array="Count">
@@ -11929,7 +12053,7 @@
         <Param type="u" size="2">
             <Name>ISO Interval</Name>
         </Param>
-        <Param type="u" size="1" lable="Count">
+        <Param type="u" size="1" label="Count">
             <Name>Num BIS</Name>
         </Param>
         <Param array="Count">

@@ -790,6 +790,7 @@ void LctrMstCisInit(void)
   {
     lmgrPersistCb.featuresDefault |= LL_FEAT_CIS_MASTER_ROLE;
   }
+  SEGGER_RTT_printf(0, "[CIS-master]:lmgrPersistCb.featuresDefault");
 }
 
 /*************************************************************************************************/
@@ -807,6 +808,7 @@ uint8_t LctrCreateCis(uint8_t numCis, LlCisCreateCisParams_t *pCreateCisParam)
   /* Return error if the previous create CIS is pending. */
   if (lmgrCisMstCb.createCisPend == TRUE)
   {
+    SEGGER_RTT_printf(0, "[CIS]:LL_ERROR_CODE_CMD_DISALLOWED");
     return LL_ERROR_CODE_CMD_DISALLOWED;
   }
 
@@ -818,12 +820,14 @@ uint8_t LctrCreateCis(uint8_t numCis, LlCisCreateCisParams_t *pCreateCisParam)
     if ((pCisCtx = lctrFindCisByHandle(pCreateCisParam->pCisHandle[i])) == NULL)
     {
       LL_TRACE_WARN0("LctrCreateCis, invalid CIS handle");
+    SEGGER_RTT_printf(0, "[CIS]:LctrCreateCis, invalid CIS handle");
       return LL_ERROR_CODE_UNKNOWN_CONN_ID;
     }
 
     if (lctrIsCisEst(pCisCtx) == TRUE)
     {
       LL_TRACE_WARN0("LctrCreateCis, CIS is already established");
+    SEGGER_RTT_printf(0, "[CIS]:LctrCreateCis, CIS is already established");
       return LL_ERROR_CODE_ACL_CONN_ALREADY_EXISTS;
     }
   }

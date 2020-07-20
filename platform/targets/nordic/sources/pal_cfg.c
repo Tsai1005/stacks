@@ -125,7 +125,7 @@ void palCfgLoadLlParams(uint8_t *pConfig)
   const uint16_t maxAdvSets   = 1;
   const uint16_t advDataLen   = 512;
   const uint16_t aclDataLen   = 512;
-  const uint16_t maxConn      = 1;
+  const uint16_t maxConn      = 2;
   const uint16_t maxGroup     = 1;
   const uint16_t maxStream    = 2;
 #else  /* Default */
@@ -157,6 +157,8 @@ void palCfgLoadLlParams(uint8_t *pConfig)
   pCfg->cisSubEvtSpaceDelay   = 0;
   pCfg->maxBig                = maxGroup;
   pCfg->maxBis                = maxStream;
+
+  SEGGER_RTT_printf(0, "palCfgLoadLlParams maxConn 0x%x", maxConn);
 }
 
 /*************************************************************************************************/

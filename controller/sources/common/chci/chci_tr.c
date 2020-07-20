@@ -194,7 +194,7 @@ static void chciRxPacketSM(void)
     switch (chciTrCb.rdHdr[0])
     {
       case HCI_CMD_TYPE:
-          SEGGER_RTT_printf(0, "[CHCI]: HCI_CMD_TYPE : 0x%x\r\n", chciTrCb.rdHdr[0]);
+          /* SEGGER_RTT_printf(0, "[CHCI]: HCI_CMD_TYPE : 0x%x\r\n", chciTrCb.rdHdr[0]); */
           chciTrRead(HCI_CMD_HDR_LEN, &chciTrCb.rdHdr[1]);
           break;
       case HCI_ACL_TYPE:
@@ -325,7 +325,7 @@ static void chciRxPacketSM(void)
   {
     WSF_ASSERT(chciTrCb.pRdBuf);
 
-    SEGGER_RTT_printf(0, "[CHCI]: CHCI_RX_STATE_COMPLETE\r\n");
+    /* SEGGER_RTT_printf(0, "[CHCI]: CHCI_RX_STATE_COMPLETE\r\n"); */
     switch (chciTrCb.rdHdr[0])
     {
       case HCI_ISO_TYPE:
@@ -335,7 +335,7 @@ static void chciRxPacketSM(void)
         chciTrRecv(CHCI_TR_PROT_BLE, CHCI_TR_TYPE_ACL, chciTrCb.pRdBuf);
         break;
       case HCI_CMD_TYPE:
-        SEGGER_RTT_printf(0, "[CHCI]: HCI_CMD_TYPE\r\n");
+        /* SEGGER_RTT_printf(0, "[CHCI]: HCI_CMD_TYPE\r\n"); */
         chciTrRecv(CHCI_TR_PROT_BLE, CHCI_TR_TYPE_CMD, chciTrCb.pRdBuf);
         break;
       case CHCI_15P4_CMD_TYPE:

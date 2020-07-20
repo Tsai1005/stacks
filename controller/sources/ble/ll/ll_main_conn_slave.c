@@ -43,9 +43,12 @@ uint8_t LlReadRemoteFeat(uint16_t handle)
   lctrMsgHdr_t *pMsg;
 
   LL_TRACE_INFO1("### LlApi ###  LlReadRemoteFeat, handle=%u", handle);
+  /* INTEG_TEST_PRINT("### LlApi ###  LlReadRemoteFeat, handle=%u", handle); */
+  SEGGER_RTT_printf(0, "### LlApi ###  LlReadRemoteFeat, handle=%u\r\n", handle);
 
   if (LctrIsProcActPended(handle, LCTR_CONN_MSG_API_REMOTE_FEATURE) == TRUE)
   {
+  SEGGER_RTT_printf(0, "LL_ERROR_CODE_CMD_DISALLOWED 0x%x\r\n", handle);
     return LL_ERROR_CODE_CMD_DISALLOWED;
   }
 
@@ -53,6 +56,7 @@ uint8_t LlReadRemoteFeat(uint16_t handle)
        ((handle >= pLctrRtCfg->maxConn) ||
        !LctrIsConnHandleEnabled(handle)))
   {
+  SEGGER_RTT_printf(0, "LL_ERROR_CODE_UNKNOWN_CONN_ID\r\n", handle);
     return LL_ERROR_CODE_UNKNOWN_CONN_ID;
   }
 

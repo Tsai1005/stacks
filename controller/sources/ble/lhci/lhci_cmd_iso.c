@@ -415,11 +415,13 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
   {
     case HCI_OPCODE_LE_READ_BUF_SIZE_V2:
     {
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_LE_READ_BUF_SIZE_V2\r\n");
       paramLen = LHCI_LEN_LE_READ_BUF_SIZE_V2;
       break;
     }
     case HCI_OPCODE_LE_READ_ISO_TX_SYNC:
     {
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_LE_READ_ISO_TX_SYNC\r\n");
       BSTREAM_TO_UINT16(handle, pBuf);
 
       paramLen = LHCI_LEN_LE_READ_TX_SYNC;
@@ -429,6 +431,7 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
     {
       uint8_t pldType;
 
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_LE_ISO_TX_TEST\r\n");
       BSTREAM_TO_UINT16(handle, pBuf);
       BSTREAM_TO_UINT8 (pldType, pBuf);
 
@@ -440,6 +443,7 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
     {
       uint8_t pldType;
 
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_LE_ISO_RX_TEST\r\n");
       BSTREAM_TO_UINT16(handle, pBuf);
       BSTREAM_TO_UINT8 (pldType, pBuf);
 
@@ -466,6 +470,7 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
     }
     case HCI_OPCODE_LE_READ_ISO_LINK_QUAL:
     {
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_LE_READ_ISO_LINK_QUAL\r\n");
       BSTREAM_TO_UINT16(handle, pBuf);
       paramLen = LHCI_LEN_LE_READ_ISO_LINK_QUAL;
       break;
@@ -474,6 +479,7 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
     {
       LlIsoSetupDataPath_t param;
 
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_LE_SETUP_ISO_DATA_PATH\r\n");
       BSTREAM_TO_UINT16(param.handle, pBuf);
       BSTREAM_TO_UINT8 (param.dpDir, pBuf);
       BSTREAM_TO_UINT8 (param.dpId, pBuf);
@@ -512,6 +518,8 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
     }
     case HCI_OPCODE_READ_LOCAL_SUP_CODECS:
     {
+
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_READ_LOCAL_SUP_CODECS\r\n");
       /* Reserve maximum buffer size, re-pack length once size is known. */
       paramLen = LHCI_LEN_READ_LOCAL_SUP_CODECS +
                  (LHCI_MAX_CODEC * 2) +     /* Max standard codecs */
@@ -531,6 +539,7 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
       BSTREAM_TO_UINT8 (transType, pBuf);
       BSTREAM_TO_UINT8 (dir, pBuf);
 
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_READ_LOCAL_SUP_CODEC_CAP\r\n");
       if (PalCodecReadLocalSupportedCodecCapabilities(codingFmt, compId, vsCodecId, dir))
       {
         if ((transType & (LL_CODEC_TRANS_CIS_BIT | LL_CODEC_TRANS_BIS_BIT)) == 0)
@@ -559,6 +568,8 @@ bool_t lhciIsoDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
       BSTREAM_TO_UINT8 (transType, pBuf);
       BSTREAM_TO_UINT8 (dir, pBuf);
       ret.ctrDly.minDly = ret.ctrDly.maxDly = 0;
+
+    SEGGER_RTT_WriteString(0, "[LHCI-ISO]: HCI_OPCODE_READ_LOCAL_SUP_CONTROLLER_DLY\r\n");
       if (PalCodecReadLocalSupportedControllerDelay(codingFmt, compId, vsCodecId, dir,
                                                     &ret.ctrDly.minDly, &ret.ctrDly.maxDly))
       {

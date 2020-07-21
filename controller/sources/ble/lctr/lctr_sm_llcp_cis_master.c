@@ -157,6 +157,7 @@ static uint8_t lctrRemapEvent(lctrConnCtx_t *pCtx, uint8_t event)
       switch (lctrDataPdu.opcode)
       {
         case LL_PDU_CIS_RSP:
+            SEGGER_RTT_printf(0, "LCTR_CIS_MST_EST_EVENT_PEER_CIS_RSP\r\n");
           return LCTR_CIS_MST_EST_EVENT_PEER_CIS_RSP;
         case LL_PDU_UNKNOWN_RSP:
           if (lctrDataPdu.pld.unknownRsp.unknownType == LL_PDU_CIS_REQ)
@@ -274,10 +275,12 @@ bool_t lctrMstLlcpExecuteCisEstSm(lctrConnCtx_t *pCtx, uint8_t event)
 
     case LCTR_LLCP_STATE_BUSY:
       LL_TRACE_INFO3("lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=BUSY, estState=%u, event=%u", pCisCtx->cisHandle, pCisCtx->estState, event);
-      SEGGER_RTT_printf("[CIS]lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=BUSY, estState=%u, event=%u\r\n", pCisCtx->cisHandle, pCisCtx->estState, event);
+      SEGGER_RTT_printf(0, "[CIS]lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=BUSY, estState=%u, event=%u\r\n", pCisCtx->cisHandle, pCisCtx->estState, event);
 
+      SEGGER_RTT_printf(0, "[CIS]pCtx->llcpActiveProc %u\r\n", pCtx->llcpActiveProc);
       if (pCtx->llcpActiveProc == LCTR_PROC_CIS_EST)
       {
+          SEGGER_RTT_printf(0, "[CIS]LCTR_PROC_CIS_EST\r\n");
         lctrExecAction(pCtx, pCisCtx, event);
 
         if (pCisCtx->estState == LCTR_CIS_MST_EST_STATE_IDLE)

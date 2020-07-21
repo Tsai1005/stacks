@@ -400,6 +400,7 @@ void lctrMstCisLlcpActPeerRej(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
 /*************************************************************************************************/
 void lctrMstCisLlcpActPeerCisRsp(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
 {
+    SEGGER_RTT_printf(0, "lctrMstCisLlcpActPeerCisRsp\r\n");
   lctrCigCtx_t *pCigCtx = lctrFindCigById(pCisCtx->cigId);
   WSF_ASSERT(pCigCtx);
 

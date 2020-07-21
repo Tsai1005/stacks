@@ -3,8 +3,8 @@
 @echo "--------[Nordic]----------"
 @echo "**************************"
 
-set TARGET=-s 682603958
-REM  set TARGET=-s 682798575
+REM  set TARGET=-s 682603958
+set TARGET=-s 682798575
 REM  set TARGET=
 
 echo "<eraseall>..."

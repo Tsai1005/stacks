@@ -270,6 +270,7 @@ void lctrSlvCisLlcpActRejCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
 /*************************************************************************************************/
 void lctrSlvCisLlcpActAcpCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
 {
+    SEGGER_RTT_printf(0, "[CIS]:lctrSlvCisLlcpActAcpCisReq\r\n");
   lctrSendCisRsp(pCtx);
   lctrCisStartLlcpTimer(pCtx, pCisCtx);
 }

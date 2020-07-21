@@ -10513,6 +10513,9 @@
               <Desc>List of connection handles of ACLs.</Desc>
           </Param>
       </Param>
+      <Param type="R">
+          <Name>HCI_Command_Status_Event</Name>
+      </Param>
   </Command>
 
   <Command name="HCI_LE_Remove_CIG" type="sc" opcode="0x2065">
@@ -10539,6 +10542,9 @@
       <Param type="u" size="2">
           <Name>Connection_Handle</Name>
           <Desc>Connection handle of the CIS.(0x0000-0x0EFF)</Desc>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Status_Event</Name>
       </Param>
   </Command>
 
@@ -10783,10 +10789,41 @@
   </Command>
 
   <Command name="HCI_LE_Setup_ISO_Data_Path" type="sc" opcode="0x206E">
-      <Param type="u" size="1">
+      <Param type="u" size="2">
           <Name>Conn Handle</Name>
-          <Default>0x00</Default>
+          <Default>0x0000</Default>
           <Desc>Used to identify the BIG.</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="Direction">
+          <Name>Data_Path_Direction</Name>
+          <Default>0x0</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Data_Path_ID</Name>
+          <Desc>Logical channel number; the meaning is vendor-specific</Desc>
+          <Default>0x1</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Codec_ID-Coding Format</Name>
+          <Desc>See Assigned Numbers for Coding Format.</Desc>
+      </Param>
+      <Param type="u" size="2" valtype="CompID">
+          <Name>Codec_ID-Company ID</Name>
+          <Desc>Company ID, see Assigned Numbers for Company Identifier.</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Codec_ID-VS ID</Name>
+          <Desc>Vendor-defined codec ID.</Desc>
+      </Param>
+      <Param type="u" size="3">
+          <Name>Controller_Delay</Name>
+          <Desc>Controller delay in microseconds for the specified configuration</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Codec_Configuration_Length</Name>
+      </Param>
+      <Param type="x" size="input">
+          <Name>Codec_Configuration</Name>
       </Param>
       <Param type="R">
           <Name>HCI_Command_Complete_Event</Name>
@@ -10798,9 +10835,8 @@
       </Param>
       <Param cond="status!=0x01">
           <Param type="u" size="1">
-              <Name>BIG_Handle</Name>
-              <Default>0x00</Default>
-              <Desc>Local identifier of the BIG</Desc>
+              <Name>Connection_Handle</Name>
+              <Desc>Connection handle of the CIS or BIS</Desc>
           </Param>
       </Param>
   </Command>

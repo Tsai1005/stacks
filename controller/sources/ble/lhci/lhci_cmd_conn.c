@@ -309,8 +309,9 @@ bool_t lhciConnDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
 
     case HCI_OPCODE_LE_READ_REMOTE_FEAT:
       BSTREAM_TO_UINT16(handle, pBuf);
-      SEGGER_RTT_printf(0, "HCI_OPCODE_LE_READ_REMOTE_FEAT 0x%x\r\n", LlReadRemoteFeat);
+      SEGGER_RTT_printf(0, "[CMD]:HCI_OPCODE_LE_READ_REMOTE_FEAT 0x%x\r\n", LlReadRemoteFeat);
       status = LlReadRemoteFeat(handle);
+      SEGGER_RTT_printf(0, "[CMD]:HCI_OPCODE_LE_READ_REMOTE_FEAT end\r\n");
       paramLen = LHCI_LEN_CMD_STATUS_EVT;
       break;
     case HCI_OPCODE_LE_READ_CHAN_MAP:

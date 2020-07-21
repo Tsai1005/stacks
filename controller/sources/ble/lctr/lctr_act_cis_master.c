@@ -302,6 +302,7 @@ void lctrMstCisLlcpActHostCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
     if (pCigCtx->isValid == FALSE)
     {
       LL_TRACE_WARN0("Fail to create CIS due to invalid parameters");
+      SEGGER_RTT_printf(0, "[CIS-Master]:Fail to create CIS due to invalid parameters\r\n");
       lctrCisStoreLocalLowResourceTerminateReason(pCisCtx);
       result = FALSE;
     }
@@ -316,6 +317,7 @@ void lctrMstCisLlcpActHostCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
           pCigCtx->cigSyncDelayUsec, NULL, lctrGetCigRefTime))
       {
         LL_TRACE_WARN0("Fail to create CIS due to scheduling limitation");
+        SEGGER_RTT_printf(0, "[CIS-Master]:Fail to create CIS due to scheduling limitation\r\n");
         lctrCisStoreLocalLowResourceTerminateReason(pCisCtx);
         result = FALSE;
       }

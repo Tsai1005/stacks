@@ -265,16 +265,17 @@ void lctrFreeCisCtx(lctrCisCtx_t *pCisCtx)
 /*************************************************************************************************/
 lctrCisCtx_t *lctrFindCisByHandle(uint16_t cisHandle)
 {
-    SEGGER_RTT_printf(0, "[CIS]: maxCis 0x%x\r\n", pLctrRtCfg->maxCis);
+    /* SEGGER_RTT_printf(0, "[CIS]: maxCis 0x%x\r\n", pLctrRtCfg->maxCis); */
   for (unsigned int i = 0; i < pLctrRtCfg->maxCis; i++)
   {
     lctrCisCtx_t *pCisCtx = &pLctrCisTbl[i];
 
-    SEGGER_RTT_printf(0, "[CIS]: handle 0x%x 0x%x\r\n", pCisCtx->cisHandle, cisHandle);
-    SEGGER_RTT_printf(0, "[CIS]: enable 0x%x\r\n", pCisCtx->enabled);
+    /* SEGGER_RTT_printf(0, "[CIS]: handle 0x%x 0x%x\r\n", pCisCtx->cisHandle, cisHandle); */
+    /* SEGGER_RTT_printf(0, "[CIS]: enable 0x%x\r\n", pCisCtx->enabled); */
     if ((pCisCtx->cisHandle == cisHandle) &&
         (pCisCtx->enabled))
     {
+    SEGGER_RTT_printf(0, "[CIS]: lctrFindCisByHandle 0x%x\r\n", pCisCtx->cisHandle);
       return pCisCtx;
     }
   }

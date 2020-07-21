@@ -103,7 +103,7 @@ void WsfMsgFree(void *pMsg)
 void WsfMsgSend(wsfHandlerId_t handlerId, void *pMsg)
 {
   WSF_TRACE_MSG1("WsfMsgSend handlerId:%u", handlerId);
-  SEGGER_RTT_printf(0, "WsfMsgSend handlerId:%u\r\n", handlerId);
+  SEGGER_RTT_printf(0, "[WSF]:>>>WsfMsgSend handlerId:%u\r\n", handlerId);
 
   /* get queue for this handler and enqueue message */
   WsfMsgEnq(WsfTaskMsgQueue(handlerId), handlerId, pMsg);

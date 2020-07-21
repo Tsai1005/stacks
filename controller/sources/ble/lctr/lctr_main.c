@@ -194,6 +194,7 @@ void LctrMsgDispatcher(lctrMsgHdr_t *pMsg)
 
   pLctrMsg = pMsg;
 
+
   if (dispId != LCTR_DISP_BCST)
   {
     /*** Unicast message ***/

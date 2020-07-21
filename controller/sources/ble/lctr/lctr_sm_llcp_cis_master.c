@@ -181,6 +181,7 @@ static uint8_t lctrRemapEvent(lctrConnCtx_t *pCtx, uint8_t event)
 
     case LCTR_CONN_MSG_API_CIS_REQ:
       pCtx->llcpCisHandle = pLctrConnMsg->createCis.cisHandle;    /* Update LLCP CIS handle for connection context from host. */
+        SEGGER_RTT_printf(0, "LCTR_CIS_MST_EST_EVENT_HOST_CIS_REQ\r\n");
       return LCTR_CIS_MST_EST_EVENT_HOST_CIS_REQ;
 
     /*** Internal messages ***/
@@ -243,18 +244,24 @@ static void lctrResolveCollision(lctrConnCtx_t *pCtx, uint8_t event)
 /*************************************************************************************************/
 bool_t lctrMstLlcpExecuteCisEstSm(lctrConnCtx_t *pCtx, uint8_t event)
 {
+
+    SEGGER_RTT_printf(0, "[CIS-Master]:lctrMstLlcpExecuteCisEstSm: event=%u\r\n", event);
   if ((event = lctrRemapEvent(pCtx, event)) == LCTR_CIS_MST_EST_EVENT_INVALID)
   {
+    SEGGER_RTT_printf(0, "[CIS-Master]:LCTR_CIS_MST_EST_EVENT_INVALID: \r\n");
     return FALSE;
   }
 
   lctrCisCtx_t *pCisCtx = lctrFindCisByHandle(pCtx->llcpCisHandle);
   WSF_ASSERT(pCisCtx != NULL)
 
+      SEGGER_RTT_printf(0, "[CIS]:lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=%u\r\n", pCtx->llcpCisHandle, pCtx->llcpState);
+      
   switch (pCtx->llcpState)
   {
     case LCTR_LLCP_STATE_IDLE:
       LL_TRACE_INFO3("lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=IDLE, estState=%u, event=%u", pCisCtx->cisHandle, pCisCtx->estState, event);
+      SEGGER_RTT_printf(0, "[CIS]:lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=IDLE, estState=%u, event=%u\r\n", pCisCtx->cisHandle, pCisCtx->estState, event);
 
       lctrExecAction(pCtx, pCisCtx, event);
 
@@ -267,6 +274,7 @@ bool_t lctrMstLlcpExecuteCisEstSm(lctrConnCtx_t *pCtx, uint8_t event)
 
     case LCTR_LLCP_STATE_BUSY:
       LL_TRACE_INFO3("lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=BUSY, estState=%u, event=%u", pCisCtx->cisHandle, pCisCtx->estState, event);
+      SEGGER_RTT_printf("[CIS]lctrMstLlcpExecuteCisEstSm: cis_handle=%u, llcpState=BUSY, estState=%u, event=%u\r\n", pCisCtx->cisHandle, pCisCtx->estState, event);
 
       if (pCtx->llcpActiveProc == LCTR_PROC_CIS_EST)
       {

@@ -156,6 +156,7 @@ static void lctrMstConnExecute(lctrConnMsg_t *pMsg)
 
     if (pCtx->role == LL_ROLE_MASTER)
     {
+        SEGGER_RTT_printf(0, "[Master]:lctrMstConnExecute\r\n");
       lctrMstConnExecuteSm(pCtx, pMsg->hdr.event);
     }
     else
@@ -174,6 +175,8 @@ static void lctrMstConnExecute(lctrConnMsg_t *pMsg)
 /*************************************************************************************************/
 static void lctrMstConnDisp(lctrConnMsg_t *pMsg)
 {
+
+    SEGGER_RTT_printf(0, "[Master]:lctrMstConnDisp 0x%x\r\n", pMsg->hdr.dispId);
   if (pMsg->hdr.dispId != LCTR_DISP_BCST)
   {
     pLctrConnMsg = pMsg;

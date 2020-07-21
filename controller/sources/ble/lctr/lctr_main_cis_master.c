@@ -186,6 +186,9 @@ static void lctrSetCis(lctrCisCtx_t *pCisCtx, LlCisCigParams_t *pSetCigParam, Ll
 
   if (pCisCtx->framing == LL_ISO_PDU_TYPE_UNFRAMED)
   {
+
+  SEGGER_RTT_printf(0, "[CIS]:lctrSetCis LL_ISO_PDU_TYPE_UNFRAMED\r\n");
+
     if (pSetCigParam->sduIntervalMToS <= 1250)
     {
       pSetCigParam->sduIntervalMToS = 1250;
@@ -196,6 +199,7 @@ static void lctrSetCis(lctrCisCtx_t *pCisCtx, LlCisCigParams_t *pSetCigParam, Ll
     }
 
     pCisCtx->isoInterval = LL_MATH_DIV_1250(pSetCigParam->sduIntervalMToS);    /* Make sure PDU interval the same as the SDU interval. Assume sduIntervalMToS equals sduIntervalSToM */
+  SEGGER_RTT_printf(0, "[CIS]:pCisCtx->isoInterval 0x%x sduIntervalMToS 0x%x\r\n", pCisCtx->isoInterval, pSetCigParam->sduIntervalMToS);
     pCisCtx->sduIntervalMToS = pSetCigParam->sduIntervalMToS;
     pCisCtx->sduIntervalSToM = pSetCigParam->sduIntervalSToM;
     pCisCtx->localDataPdu.maxTxLen = WSF_MIN(pCisParam->sduSizeMToS, pLctrRtCfg->maxIsoPduLen);
@@ -204,8 +208,10 @@ static void lctrSetCis(lctrCisCtx_t *pCisCtx, LlCisCigParams_t *pSetCigParam, Ll
     pCisCtx->sduSizeSToM = pCisParam->sduSizeSToM;
     pCisCtx->phyMToS = lctrPhysBitToPhy(lctrChoosePreferredPhy(pCisParam->phyMToS));
     pCisCtx->phySToM = lctrPhysBitToPhy(lctrChoosePreferredPhy(pCisParam->phySToM));
+
     pCisCtx->ftMToS = LlMathDivideUint32(pSetCigParam->transLatMToS * 1000, LCTR_ISO_INT_TO_US(pCisCtx->isoInterval));
     pCisCtx->ftSToM = LlMathDivideUint32(pSetCigParam->transLatSToM * 1000, LCTR_ISO_INT_TO_US(pCisCtx->isoInterval));
+  SEGGER_RTT_printf(0, "[CIS]:pCisCtx->ftMToS 0x%x sduIntervalMToS 0x%x\r\n", pSetCigParam->transLatMToS, pSetCigParam->sduIntervalMToS);
 
     if (pCisCtx->sduSizeMToS / pCisCtx->localDataPdu.maxTxLen * pCisCtx->localDataPdu.maxTxLen < pCisCtx->sduSizeMToS)
     {
@@ -234,6 +240,7 @@ static void lctrSetCis(lctrCisCtx_t *pCisCtx, LlCisCigParams_t *pSetCigParam, Ll
   }
   else /* LL_ISO_PDU_TYPE_FRAMED */
   {
+  SEGGER_RTT_printf(0, "[CIS]:lctrSetCis LL_ISO_PDU_TYPE_FRAMED \r\n");
     if (pSetCigParam->sduIntervalMToS <= 1250)
     {
       pSetCigParam->sduIntervalMToS = 1250;
@@ -311,6 +318,10 @@ static void lctrSetCig(lctrCigCtx_t *pCigCtx, LlCisCigParams_t *pSetCigParam)
       /* LL_PACKING_SEQUENTIAL */
       pCisCtx->subIntervUsec = lctrCisCalcSubEvtDurationUsecSeq(pCisCtx->phyMToS, pCisCtx->phySToM,
                                                                 pCisCtx->localDataPdu.maxTxLen, pCisCtx->localDataPdu.maxRxLen);
+      if (pCisCtx->nse == 1) {
+          pCisCtx->subIntervUsec = 0;
+      }
+
       pCisCtx->delayUsec = pCisCtx->subIntervUsec;
     }
 
@@ -318,6 +329,8 @@ static void lctrSetCig(lctrCigCtx_t *pCigCtx, LlCisCigParams_t *pSetCigParam)
     WSF_ASSERT((uint64_t)pCisCtx->subIntervUsec > WSF_MIN(LL_BLE_TMSS_US, LL_MATH_DIV_10E6(2 * LCTR_ISO_INT_TO_US(pCisCtx->isoInterval) * ((uint64_t)lctrCalcTotalAccuracy(pSetCigParam->sca)))));
     LL_TRACE_INFO1("lctrSetCig,     subIntervUsec=%d",      pCisCtx->subIntervUsec);
     LL_TRACE_INFO1("lctrSetCig,     delayUsec=%d",          pCisCtx->delayUsec);
+    SEGGER_RTT_printf(0, "lctrSetCig,     subIntervUsec=%d\r\n",      pCisCtx->subIntervUsec);
+    SEGGER_RTT_printf(0, "lctrSetCig,     delayUsec=%d\r\n",          pCisCtx->delayUsec);
   }
 
   /* Calculate CIG sync delay and CIS sync delay. */
@@ -790,7 +803,7 @@ void LctrMstCisInit(void)
   {
     lmgrPersistCb.featuresDefault |= LL_FEAT_CIS_MASTER_ROLE;
   }
-  SEGGER_RTT_printf(0, "[CIS-master]:lmgrPersistCb.featuresDefault");
+  SEGGER_RTT_printf(0, "[CIS-master]:lmgrPersistCb.featuresDefault\r\n");
 }
 
 /*************************************************************************************************/

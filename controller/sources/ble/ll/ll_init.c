@@ -144,6 +144,9 @@ void LlHandlerInit(wsfHandlerId_t handlerId)
   LL_TRACE_INFO0("LlHandlerInit: LL initialization completed");
 
   lmgrPersistCb.handlerId = handlerId;
+
+  SEGGER_RTT_printf(0, "LlHandlerInit: LL initialization completed 0x%x", handlerId);
+
   LctrSetSupStates();
 
   /* Setup default public address. */

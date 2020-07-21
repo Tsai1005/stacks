@@ -72,8 +72,17 @@ Wait_HCI_Command_Complete_LE_Set_Advertising_Data_Event 5000, any, HCI_LE_Set_Ad
 Send_HCI_LE_Set_Advertise_Enable 0x01
 Wait_HCI_Command_Complete_LE_Set_Advertise_Enable_Event 5000, any, HCI_LE_Set_Advertise_Enable, 
 
+Wait_HCI_LE_Generic_Report_Event 10000, 0x0A, 0x00, 0, 0x01, 0x00, , , , , , , 
 
-#3 - Create connection
+Wait_HCI_LE_Generic_Report_Event 10000, 0x14, 0x0000, 0x01
+
+
+
+Wait_HCI_LE_Generic_Report_Event 10000, 0x1A, 0, 0002, 1, 1
+
+#3 - Accept CIS
+Send_HCI_LE_Accept_CIS 0002
+
 
 
 

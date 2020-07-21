@@ -947,8 +947,8 @@ void LctrRxAclComplete(uint8_t numBufs)
 /*************************************************************************************************/
 bool_t LctrIsConnHandleEnabled(uint16_t handle)
 {
-    SEGGER_RTT_printf(0, "LctrIsConnHandleEnabled %d \r\n", pLctrConnTbl[handle].enabled);
-    pLctrConnTbl[handle].enabled = 1;
+    SEGGER_RTT_printf(0, "LctrIsConnHandleEnabled 0x%x %d \r\n", handle, pLctrConnTbl[handle].enabled);
+    /* pLctrConnTbl[handle].enabled = 1; */
   return pLctrConnTbl[handle].enabled;
 }
 

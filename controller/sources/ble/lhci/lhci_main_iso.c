@@ -47,7 +47,8 @@
 /*************************************************************************************************/
 void LhciIsoHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
 {
-    /* SEGGER_RTT_WriteString(0, "[ISOAL]: LhciIsoHandler\r\n"); */
+    SEGGER_RTT_WriteString(0, "[WSF handler]: LhciIsoHandler\r\n");
+
   if (event & LHCI_EVT_ISO_RCVD)
   {
     uint8_t *pIsoBuf;

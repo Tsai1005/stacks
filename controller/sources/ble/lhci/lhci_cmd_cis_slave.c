@@ -105,6 +105,7 @@ bool_t lhciSlvCisDecodeCmdPkt(LhciHdr_t *pHdr, uint8_t *pBuf)
       uint16_t cisHandle;
 
       BSTREAM_TO_UINT16(cisHandle, pBuf);
+        SEGGER_RTT_printf(0, "HCI_OPCODE_LE_ACCEPT_CIS_REQ\r\n");
       status = LlAcceptCisReq(cisHandle);
       paramLen = LHCI_LEN_CMD_STATUS_EVT;
       break;

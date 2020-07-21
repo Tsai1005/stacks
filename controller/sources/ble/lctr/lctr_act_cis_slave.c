@@ -69,6 +69,11 @@ static uint8_t LctrCheckCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx, const
       (pCisReq->bnSToM > LL_MAX_CIS_BN))
   {
     LL_TRACE_WARN0("LctrCheckCisReq: invalid parameters, parameter out of range");
+
+    SEGGER_RTT_printf(0, "[CIS]:pCisReq->ftMToS: 0x%x - min : 0x%x / max : 0x%x\r\n", pCisReq->ftMToS, LL_MIN_CIS_FT, LL_MAX_CIS_FT);
+    SEGGER_RTT_printf(0, "[CIS]:pCisReq->ftSToM: 0x%x \r\n", pCisReq->ftSToM);
+
+    SEGGER_RTT_printf(0, "[CIS]:LctrCheckCisReq: invalid parameters, parameter out of range\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 
@@ -76,6 +81,7 @@ static uint8_t LctrCheckCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx, const
   if (pCisReq->cisOffMaxUsec < pCisReq->cisOffMinUsec)
   {
     LL_TRACE_WARN0("LctrCheckCisReq: invalid parameters, cisOffMaxUsec shall be greater than cisOffMinUsec");
+    SEGGER_RTT_printf(0, "[CIS]:LctrCheckCisReq: invalid parameters, cisOffMaxUsec shall be greater than cisOffMinUsec\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
 
@@ -84,6 +90,7 @@ static uint8_t LctrCheckCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx, const
   if (pCisReq->cisOffMaxUsec > (LCTR_CONN_IND_US(pCtx->connInterval) - (pCisReq->nse * pCisReq->subIntervUsec - pLctrRtCfg->cisSubEvtSpaceDelay)))
   {
     LL_TRACE_WARN0("LctrCheckCisReq: invalid parameters, cisOffMaxUsec is too big");
+    SEGGER_RTT_printf(0, "[CIS]:LctrCheckCisReq: invalid parameters, cisOffMaxUsec is too big\r\n");
     return LL_ERROR_CODE_INVALID_HCI_CMD_PARAMS;
   }
   return LL_SUCCESS;
@@ -214,11 +221,13 @@ void lctrSlvCisLlcpActPeerCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
 
   WSF_ASSERT(pCigCtx);
 
+  SEGGER_RTT_printf(0, "lctrSlvCisLlcpActPeerCisReq\r\n");
   if (LctrCheckCisReq(pCtx, pCisCtx, &lctrDataPdu.pld.cisReq) != LL_SUCCESS)
   {
     lctrSendRejectInd(pCtx, LL_ERROR_CODE_INVALID_LMP_PARAMS, TRUE);
     lctrFreeCisCtx(pCisCtx);
     LL_TRACE_WARN1("Invalid CIS request parameters; reply with reason=INVALID_LMP_PARAMS, cisHandle=%u", pCisCtx->cisHandle);
+    SEGGER_RTT_printf(0, "Invalid CIS request parameters; reply with reason=INVALID_LMP_PARAMS, cisHandle=%u\r\n", pCisCtx->cisHandle);
     return;
   }
 
@@ -227,6 +236,7 @@ void lctrSlvCisLlcpActPeerCisReq(lctrConnCtx_t *pCtx, lctrCisCtx_t *pCisCtx)
     lctrSendRejectInd(pCtx, LL_ERROR_CODE_UNSUPPORTED_REMOTE_FEATURE, TRUE);
     lctrFreeCisCtx(pCisCtx);
     LL_TRACE_WARN0("Host did not set ISO channel support");
+    SEGGER_RTT_printf(0, "Host did not set ISO channel support\r\n");
     return;
   }
 

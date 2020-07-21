@@ -246,7 +246,7 @@ static uint8_t lctrGetCmnProcId(lctrConnCtx_t *pCtx, uint8_t event)
       return LCTR_PROC_CMN_CH_MAP_UPD;
 
     case LCTR_CONN_MSG_API_REMOTE_FEATURE:
-          SEGGER_RTT_printf(0, "[Slave1]:LCTR_CONN_MSG_API_REMOTE_FEATURE\r\n");
+          SEGGER_RTT_printf(0, "[LLCP]:LCTR_CONN_MSG_API_REMOTE_FEATURE\r\n");
     case LCTR_CONN_LLCP_FEATURE_EXCH:
       return LCTR_PROC_CMN_FEAT_EXCH;
 
@@ -366,23 +366,26 @@ static uint8_t lctrGetCmnProcId(lctrConnCtx_t *pCtx, uint8_t event)
 /*************************************************************************************************/
 static uint8_t lctrRemapCmnProcEvent(lctrConnCtx_t *pCtx, uint8_t event)
 {
+
+    SEGGER_RTT_printf(0, "[LLCP-SM]: event 0x%x\r\n", event);
   switch (event)
   {
     case LCTR_CONN_MSG_API_CHAN_MAP_UPDATE:
     case LCTR_CONN_MSG_API_REMOTE_FEATURE:
-          SEGGER_RTT_printf(0, "[Slave2]:LCTR_CONN_MSG_API_REMOTE_FEATURE\r\n");
     case LCTR_CONN_MSG_API_REMOTE_VERSION:
     case LCTR_CONN_MSG_API_DISCONNECT:
     case LCTR_CONN_MSG_API_DATA_LEN_CHANGE:
     case LCTR_CONN_MSG_API_SET_MIN_USED_CHAN:
     case LCTR_CONN_MSG_API_PER_ADV_SYNC_TRSF:
     case LCTR_CONN_MSG_API_REQ_PEER_SCA:
+        SEGGER_RTT_printf(0, "[LL-SM]:LCTR_PROC_CMN_EVT_HOST_START\r\n");
       return LCTR_PROC_CMN_EVT_HOST_START;
 
     case LCTR_CONN_LLCP_FEATURE_EXCH:
     case LCTR_CONN_LLCP_VERSION_EXCH:
     case LCTR_CONN_LLCP_LENGTH_EXCH:
     case LCTR_CONN_LLCP_TERM:
+        SEGGER_RTT_printf(0, "[LL-SM]:LCTR_PROC_CMN_EVT_INT_START\r\n");
       return LCTR_PROC_CMN_EVT_INT_START;
 
     case LCTR_CONN_LLCP_PROC_CMPL:
@@ -684,6 +687,8 @@ bool_t lctrLlcpExecuteCommonSm(lctrConnCtx_t *pCtx, uint8_t event)
   uint8_t proc;
   uint8_t llEvent = event;
 
+    SEGGER_RTT_printf(0, "LCTR_LLCP_SM_CMN\r\n");
+
   if ((event = lctrRemapCmnProcEvent(pCtx, event)) == LCTR_PROC_CMN_EVT_INVALID)
   {
     return FALSE;
@@ -698,7 +703,7 @@ bool_t lctrLlcpExecuteCommonSm(lctrConnCtx_t *pCtx, uint8_t event)
   {
     case LCTR_LLCP_STATE_IDLE:
       LL_TRACE_INFO3("lctrLlcpExecuteCommonSm: handle=%u, proc=%u, state=IDLE, event=%u", LCTR_GET_CONN_HANDLE(pCtx), proc, event);
-      SEGGER_RTT_printf(0, "lctrLlcpExecuteCommonSm: handle=%u, proc=%u, state=IDLE, event=%u\r\n", LCTR_GET_CONN_HANDLE(pCtx), proc, event);
+      SEGGER_RTT_printf(0, "[LL-SM]lctrLlcpExecuteCommonSm: handle=%u, proc=%u, state=IDLE, event=%u\r\n", LCTR_GET_CONN_HANDLE(pCtx), proc, event);
 
       switch (event)
       {

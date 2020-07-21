@@ -159,6 +159,7 @@ uint8_t LctrAcceptCisReq(uint16_t cisHandle)
   if (pCisCtx == NULL)
   {
     LL_TRACE_WARN0("LctrAcceptCisReq, invalid CIS handle");
+    SEGGER_RTT_printf(0, "LctrAcceptCisReq, invalid CIS handle\r\n");
     return LL_ERROR_CODE_UNKNOWN_CONN_ID;
   }
 
@@ -167,12 +168,14 @@ uint8_t LctrAcceptCisReq(uint16_t cisHandle)
   if (pCtx == NULL)
   {
     LL_TRACE_WARN0("LctrAcceptCisReq, invalid ACL handle");
+    SEGGER_RTT_printf(0, "LctrAcceptCisReq, invalid ACL handle\r\n");
     return LL_ERROR_CODE_UNKNOWN_CONN_ID;
   }
 
   if (pCtx->role == LL_ROLE_MASTER)
   {
     LL_TRACE_WARN0("LctrAcceptCisReq, invalid role");
+    SEGGER_RTT_printf(0, "LctrAcceptCisReq, invalid role");
     return LL_ERROR_CODE_CMD_DISALLOWED;
   }
 

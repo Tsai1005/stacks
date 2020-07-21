@@ -222,6 +222,7 @@ static uint8_t lctrRemapEvent(lctrConnCtx_t *pCtx, uint8_t event)
       return LCTR_CIS_SLV_EST_EVENT_HOST_REQ_REJECT;
 
     case LCTR_CONN_MSG_API_CIS_REQ_ACCEPT:
+      SEGGER_RTT_printf(0, "LCTR_CIS_SLV_EST_EVENT_HOST_REQ_ACCEPT\r\n");
       return LCTR_CIS_SLV_EST_EVENT_HOST_REQ_ACCEPT;
 
     /*** Internal messages ***/
@@ -328,6 +329,7 @@ bool_t lctrSlvLlcpExecuteCisEstSm(lctrConnCtx_t *pCtx, uint8_t event)
 {
   if ((event = lctrRemapEvent(pCtx, event)) == LCTR_CIS_SLV_EST_EVENT_INVALID)
   {
+      SEGGER_RTT_printf(0, "[CIS-Slave]:LCTR_CIS_SLV_EST_EVENT_INVALID\r\n");
     return FALSE;
   }
 
@@ -338,6 +340,7 @@ bool_t lctrSlvLlcpExecuteCisEstSm(lctrConnCtx_t *pCtx, uint8_t event)
   {
     case LCTR_LLCP_STATE_IDLE:
       LL_TRACE_INFO3("lctrSlvLlcpExecuteCisEstSm: handle=%u, llcpState=IDLE, estState=%u, event=%u", LCTR_GET_CONN_HANDLE(pCtx), pCisCtx->estState, event);
+      SEGGER_RTT_printf(0, "lctrSlvLlcpExecuteCisEstSm: handle=%u, llcpState=IDLE, estState=%u, event=%u\r\n", LCTR_GET_CONN_HANDLE(pCtx), pCisCtx->estState, event);
 
       lctrExecAction(pCtx, pCisCtx, event);
 
@@ -350,6 +353,7 @@ bool_t lctrSlvLlcpExecuteCisEstSm(lctrConnCtx_t *pCtx, uint8_t event)
 
     case LCTR_LLCP_STATE_BUSY:
       LL_TRACE_INFO3("lctrSlvLlcpExecuteCisEstSm: handle=%u, llcpState=BUSY, estState=%u, event=%u", LCTR_GET_CONN_HANDLE(pCtx), pCisCtx->estState, event);
+      SEGGER_RTT_printf(0, "lctrSlvLlcpExecuteCisEstSm: handle=%u, llcpState=BUSY, estState=%u, event=%u\r\n", LCTR_GET_CONN_HANDLE(pCtx), pCisCtx->estState, event);
 
       lctrCheckProcOverride(pCtx, event);
 

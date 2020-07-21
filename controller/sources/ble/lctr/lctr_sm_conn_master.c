@@ -41,6 +41,8 @@
 /*************************************************************************************************/
 void lctrMstConnExecuteSm(lctrConnCtx_t *pCtx, uint8_t event)
 {
+
+    SEGGER_RTT_printf(0, "[Master]:lctrMstConnExecuteSm 0x%x %x\r\n", pCtx->state, event);
   switch (pCtx->state)
   {
     case LCTR_CONN_STATE_ESTABLISHED_READY:

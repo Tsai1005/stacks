@@ -46,6 +46,7 @@ uint8_t LlAcceptCisReq(uint16_t cisHandle)
   uint8_t status = LL_SUCCESS;
 
   LL_TRACE_INFO1("### LlApi ###  LlAcceptCisReq cisHandle=%d", cisHandle);
+  SEGGER_RTT_printf(0, "### LlApi ###  LlAcceptCisReq cisHandle=%d\r\n", cisHandle);
 
   status = LctrAcceptCisReq(cisHandle);
 

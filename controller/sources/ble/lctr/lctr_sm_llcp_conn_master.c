@@ -638,6 +638,8 @@ void lctrMstLlcpExecuteSm(lctrConnCtx_t *pCtx, uint8_t event)
       break;
   }
 
+  SEGGER_RTT_printf(0, "[Master]:>>>>>>>>>>lctrMstLlcpSmTbl\r\n");
+
   if (!(lctrMstLlcpSmTbl[LCTR_LLCP_SM_ENCRYPT]  && lctrMstLlcpSmTbl[LCTR_LLCP_SM_ENCRYPT](pCtx, event)) &&
       !(lctrMstLlcpSmTbl[LCTR_LLCP_SM_PING]     && lctrMstLlcpSmTbl[LCTR_LLCP_SM_PING](pCtx, event)) &&
       !(lctrMstLlcpSmTbl[LCTR_LLCP_SM_CONN_UPD] && lctrMstLlcpSmTbl[LCTR_LLCP_SM_CONN_UPD](pCtx, event)) &&
@@ -649,4 +651,6 @@ void lctrMstLlcpExecuteSm(lctrConnCtx_t *pCtx, uint8_t event)
   {
     lctrLlcpStatelessEventHandler(pCtx, event);
   }
+  SEGGER_RTT_printf(0, "[Master]:<<<<<<<<<<<lctrMstLlcpSmTbl end\r\n");
+
 }

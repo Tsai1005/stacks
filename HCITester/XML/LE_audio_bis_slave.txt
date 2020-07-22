@@ -67,7 +67,7 @@ Wait_HCI_Command_Status_Event 2000, 0x00, Any, 0x2068
 
 
 
-sleep (5000)
+sleep (10000)
 
-#Send_HCI_LE_Terminate_BIG 0x01, 0x00
+Send_HCI_LE_Terminate_BIG 0x01, 0x00
 

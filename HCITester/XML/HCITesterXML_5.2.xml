@@ -11190,9 +11190,9 @@
   </Values>
 
   <Values name="BroadcastTypes" type="enum">
-      <Value val="0">None</Value>
-      <Value val="1">Active</Value>
-      <Value val="2">All</Value>
+      <Value val="0">Point2Point</Value>
+      <Value val="1">BR/EDR broadcast</Value>
+      <Value val="2">Reserved for future use</Value>
   </Values>
 
   <Values name="TxPktBoundaryFlagTypes" type="enum">
@@ -11205,6 +11205,13 @@
       <Value val="2">Start</Value>
   </Values>
 
+  <Values name="ISO_PB_Flag" type="enum">
+      <Value val="0">The ISO_Data_Load field contains the first fragment of a fragmented
+SDU.</Value>
+      <Value val="1">The ISO_Data_Load field contains a continuation fragment of an SDU.</Value>
+      <Value val="2">The ISO_Data_Load field contains a complete SDU.</Value>
+      <Value val="3">The ISO_Data_Load field contains the last fragment of an SDU.</Value>
+  </Values>
 
   <Command name="HCI_LE_Send_Data" type="cc">
       <Param type="u" size="1" prop="h">
@@ -11253,6 +11260,68 @@
       </Param>
       <Param type="x" size="input" label="dataLen">
           <Name>Data</Name>
+          <Default>"00:11:22:33"</Default>
+          <Desc />
+      </Param>
+  </Command>
+
+  <Command name="HCI_Send_ISO_Data" type="cc">
+      <Param type="u" size="1" prop="h" valtype="LayerTypes">
+          <Name>Layer</Name>
+          <Value>2</Value>
+      </Param>
+      <Param type="h" size="2" bits="12">
+          <Name>Handle</Name>
+          <Default>0x0000</Default>
+          <Desc />
+      </Param>
+      <Param type="u" size="2" bits="2" valtype="ISO_PB_Flag">
+          <Name>PB_flag</Name>
+          <Desc>Packet Boundary Flag</Desc>
+      </Param>
+      <Param type="u" size="2" bits="1" label="ts_flag">
+          <Name>TS_FLag</Name>
+          <Desc>Time Stamp</Desc>
+      </Param>
+      <Param type="u" size="2" bits="1">
+          <Name>RFU</Name>
+      </Param>
+      <Param type="u" size="2" bits="14" prop="h">
+          <Name>ISO_Data_Load_Length</Name>
+          <Value>size(time_stamp_len)+size(psn_len)+size(iso_sdu_hdr_len)+size(iso_sdu_len)</Value>
+      </Param>
+      <Param type="u" size="2" bits="2">
+          <Name>RFU</Name>
+      </Param>
+      <Param cond="ts_flag == 1">
+          <Param type="u" size="4" label="time_stamp_len">
+              <Name>Time_Stamp</Name>
+              <Default>0x00000000</Default>
+              <Desc />
+          </Param>
+      </Param>
+      <Param type="u" size="2" lable="psn_len">
+          <Name>Packet_Sequence_Number</Name>
+          <Default>0x00000000</Default>
+          <Desc />
+      </Param>
+      <Param type="u" size="2" bits="12" label="iso_sdu_hdr_len">
+          <Name>ISO_SDU_Length</Name>
+          <Value>size(iso_sdu_len)</Value>
+          <Desc />
+      </Param>
+      <Param type="u" size="2" bits="2">
+          <Name>RFU</Name>
+          <Default>0x00</Default>
+          <Desc />
+      </Param>
+      <Param type="u" size="2" bits="2">
+          <Name>Packet_Status_Flag</Name>
+          <Default>0x00</Default>
+          <Desc />
+      </Param>
+      <Param type="x" size="input" label="iso_sdu_len">
+          <Name>ISO_SDU</Name>
           <Default>"00:11:22:33"</Default>
           <Desc />
       </Param>
@@ -12109,6 +12178,7 @@
         </Param>
     </Param>
 
+    <!-- LE BIGInfo Advertising Report  -->
     <Param cond="Event_Type==0x22">
         <Param type="u" size="2">
             <Name>Sync Handle</Name>

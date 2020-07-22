@@ -89,5 +89,6 @@ Wait_HCI_LE_Generic_Report_Event 10000, 0x19, 0x00, , , , , , , , , , , , , , ,
 Send_HCI_LE_Setup_ISO_Data_Path 0x0002, 0x01, 0x0, 0x1, 0x7e8, 0x0, 0x400, 0, 
 Wait_HCI_Command_Complete_LE_Setup_ISO_Data_Path_Event 5000, any, HCI_LE_Setup_ISO_Data_Path, 0x00, 
 
+sleep (5000)
 
 

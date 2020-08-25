@@ -1506,6 +1506,10 @@
       <Value val="0x12">LE Advertising Set Terminated Event</Value>
       <Value val="0x13">LE Scan Request Received Event</Value>
       <Value val="0x14">LE Channel Selection Algorithm Event</Value>
+      <Value val="0x15">LE Connectionless IQ Report Event</Value>
+      <Value val="0x16">LE Connection IQ Report Event</Value>
+      <Value val="0x17">LE CTE Request Failed Event</Value>
+      <Value val="0x18">LE Periodic Advertising Sync Transfer Received Event</Value>
       <Value val="0x19">LE CIS Established Event</Value>
       <Value val="0x1A">LE CIS Request Event</Value>
       <Value val="0x1B">LE Create BIG Complete Event</Value>
@@ -1694,6 +1698,36 @@
   <Values name="ChanSelectAlgo_Type" type="enum">
       <Value val="0x00">Algorithm 1 Used</Value>
       <Value val="0x01">Algorithm 2 Used</Value>
+  </Values>
+
+  <Values name="CTE_Type" type="enum">
+      <Value val="0x00">AoA Constant Tone Extension</Value>
+      <Value val="0x01">AoD Constant Tone Extension with 1 us slots</Value>
+      <Value val="0x02">AoD Constant Tone Extension with 2 us slots</Value>
+  </Values>
+
+  <Values name="CTE_Types" type="mask">
+      <Value val="0x01">Allow AoA Constant Tone Extension Response</Value>
+      <Value val="0x02">Allow AoD Constant Tone Extension Response with 1 us slots</Value>
+      <Value val="0x04">Allow AoD Constant Tone Extension Response with 2 us slots</Value>
+  </Values>
+
+  <Values name="Sampling_Rates" type="mask">
+      <Value val="0x01">1 us switching supported for AoD transmission</Value>
+      <Value val="0x02">1 us sampling supported for AoD reception</Value>
+      <Value val="0x04">1 us switching and sampling supported for AoA reception</Value>
+  </Values>
+
+  <Values name="Slot_durations" type="enum">
+      <Value val="0x01">Switching and sampling slots are 1 us each</Value>
+      <Value val="0x02">Switching and sampling slots are 2 us each</Value>
+  </Values>
+
+  <Values name="Packet_status" type="enum">
+      <Value val="0x00">CRC was correct</Value>
+      <Value val="0x01">CRC was incorrect and the Length and CTETime fields of the packet were used to determine sampling points</Value>
+      <Value val="0x02">CRC was incorrect but the Controller has determined the position and length of the Constant Tone Extension in some other way</Value>
+      <Value val="0xFF">Insufficient resources to sample (Channel_Index, CTE_Type, and Slot_Durations invalid).</Value>
   </Values>
 
   <Values name="Dtm_Tx_Pkt_Count_Type" type="enum">
@@ -10248,6 +10282,368 @@
       </Param>
   </Command>
 
+  <!-- V5.1 - Constant Tone-->
+  <Command name="HCI_LE_Receiver_Test_v3" type="sc" opcode="0x204F">
+      <Param type="u" size="1">
+          <Name>RX_Channel</Name>
+          <Default>0x00</Default>
+          <Desc>RX_Channel</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="DtmRxPhyParameter_Type">
+          <Name>PHY</Name>
+          <Default>0x01</Default>
+          <Desc>1Mbps or 2Mbps or Coded PHY</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="EnhancedDTMModIndex_Type">
+          <Name>Modulation Index</Name>
+          <Default>0x00</Default>
+          <Desc>Standard or Stable Modulation Index</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Excepted CTE Length</Name>
+          <Default>0x00</Default>
+          <Desc>Expected length of the Constant Tone Extension in 8 μs units</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CTE_Types">
+          <Name>Excepted CTE Type</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" valtype="Slot_durations">
+          <Name>Slot Durations</Name>
+          <Default>0x01</Default>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Desc>Command status</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Transmitter_Test_v3" type="sc" opcode="0x2050">
+      <Param type="u" size="1">
+          <Name>TX_Channel</Name>
+          <Default>0x00</Default>
+          <Desc>TX_Channel</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Length_Of_Test_Data</Name>
+          <Default>0x00</Default>
+          <Desc>Length_Of_Test_Data</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="DtmPacketPattern_Type">
+          <Name>Packet Pattern</Name>
+          <Default>0x00</Default>
+          <Desc>Packet Pattern</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="DtmTxPhyParameter_Type">
+          <Name>PHY</Name>
+          <Default>0x01</Default>
+          <Desc>1Mbps or 2Mbps or 125kbps Coded or 500kbps Coded PHY</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>CTE Length</Name>
+          <Default>0x00</Default>
+          <Desc>Expected length of the Constant Tone Extension in 8 μs units</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CTE_Types">
+          <Name>CTE Type</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Desc>Command status</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Set_Connectionless_CTE_Transmit_Parameters" type="sc" opcode="0x2051">
+      <Param type="u" size="1">
+          <Name>Advertising Handle</Name>
+          <Default>0x00</Default>
+          <Desc>Used to identify an advertising set</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>CTE Length</Name>
+          <Default>0x02</Default>
+          <Desc>Constant Tone Extension length in 8 us units</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CTE_Type">
+          <Name>CTE Type</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>CTE Count</Name>
+          <Default>0x01</Default>
+          <Desc>The number of Constant Tone Extensions to transmit in each periodic advertising interval</Desc>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Set_Connectionless_CTE_Transmit_Enable" type="sc" opcode="0x2052">
+      <Param type="u" size="1">
+          <Name>Advertising Handle</Name>
+          <Default>0x00</Default>
+          <Desc>Used to identify an advertising set</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>CTE Enable</Name>
+          <Default>0x00</Default>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Set_Connectionless_IQ_Sampling_Enable" type="sc" opcode="0x2053">
+      <Param type="u" size="2">
+          <Name>Sync Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Sync_Handle identifying the periodic advertising train.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Sampling Enable</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" valtype="Slot_durations">
+          <Name>Slot Durations</Name>
+          <Default>0x01</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Max Sampled CTEs</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Sync Handle</Name>
+          <Default>0x0000</Default>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_LE_Set_Connection_CTE_Receive_Parameters" type="sc" opcode="0x2054">
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Sampling Enable</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" valtype="Slot_durations">
+          <Name>Slot Durations</Name>
+          <Default>0x01</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Max Sampled CTEs</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_LE_Set_Connection_CTE_Transmit_Parameters" type="sc" opcode="0x2055">
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CTE_Types">
+          <Name>CTE Types</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Connection_CTE_Request_Enable" type="sc" opcode="0x2056">
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Enable</Name>
+          <Default>0x01</Default>
+      </Param>
+      <Param type="u" size="2">
+          <Name>CTE Request Interval</Name>
+          <Default>0x0000</Default>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Requested CTE Length</Name>
+          <Default>0x02</Default>
+      </Param>
+      <Param type="u" size="1" valtype="CTE_Type">
+          <Name>Requested CTE Type</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Connection_CTE_Response_Enable" type="sc" opcode="0x2057">
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Enable</Name>
+          <Default>0x01</Default>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="2">
+          <Name>Connection Handle</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+  </Command>
+
+  <Command name="HCI_LE_Read_Antenna_Information" type="sc" opcode="0x2058">
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Default>0x00</Default>
+          <Desc>Command Status</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="Sampling_Rates">
+          <Name>Supported Switching Sampling Rates</Name>
+          <Default>0x0000</Default>
+          <Desc>Connection_Handle.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Num Antennae</Name>
+          <Default>0x01</Default>
+          <Desc>The number of antennae supported by the Controller.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>The number of antennae supported by the Controller</Name>
+          <Default>0x02</Default>
+          <Desc>Maximum length of antenna switching pattern supported by the Controller.</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Max_CTE_Length</Name>
+          <Default>0x02</Default>
+          <Desc>Maximum length of a transmitted Constant Tone Extension supported in 8 us units.</Desc>
+      </Param>
+  </Command>
+
   <!-- V5.2 - Isochronous Channel-->
   <Command name="HCI_LE_Read_ISO_Tx_Sync" type="sc" opcode="0x2061">
       <Param type="h" size="2">
@@ -10970,6 +11366,61 @@
           </Param>
       </Param>
   </Command>
+
+  <Command name="HCI_LE_Transmitter_Test_v4" type="sc" opcode="0x207B">
+      <Param type="u" size="1">
+          <Name>TX_Channel</Name>
+          <Default>0x00</Default>
+          <Desc>TX_Channel</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Length_Of_Test_Data</Name>
+          <Default>0x00</Default>
+          <Desc>Length_Of_Test_Data</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="DtmPacketPattern_Type">
+          <Name>Packet Pattern</Name>
+          <Default>0x00</Default>
+          <Desc>Packet Pattern</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="DtmTxPhyParameter_Type">
+          <Name>PHY</Name>
+          <Default>0x01</Default>
+          <Desc>1Mbps or 2Mbps or 125kbps Coded or 500kbps Coded PHY</Desc>
+      </Param>
+      <Param type="u" size="1">
+          <Name>CTE Length</Name>
+          <Default>0x00</Default>
+          <Desc>Expected length of the Constant Tone Extension in 8 μs units</Desc>
+      </Param>
+      <Param type="u" size="1" valtype="CTE_Types">
+          <Name>CTE Type</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="u" size="1" label="Count">
+          <Name>Switching_Pattern_Length</Name>
+          <Default>0x02</Default>
+          <Desc>The number of Antenna IDs in the pattern</Desc>
+      </Param>
+      <Param array="Count">
+          <Param type="u" size="1">
+              <Name>Antenna IDs</Name>
+              <Desc>List of Antenna IDs in the pattern.</Desc>
+          </Param>
+      </Param>
+      <Param type="u" size="1">
+          <Name>Transmit Power level</Name>
+          <Default>0x00</Default>
+      </Param>
+      <Param type="R">
+          <Name>HCI_Command_Complete_Event</Name>
+      </Param>
+      <Param type="u" size="1" valtype="Status">
+          <Name>Status</Name>
+          <Desc>Command status</Desc>
+      </Param>
+  </Command>
+
 
   <!-- ================================================================== -->
   <Command name="MACRO Command" type="gb"                      />
@@ -11996,6 +12447,114 @@ SDU.</Value>
         </Param>
         <Param type="u" size="1" valtype="ChanSelectAlgo_Type">
             <Name>Channel Algorithm</Name>
+        </Param>
+    </Param>
+
+    <!-- Connectionless IQ Report Event -->
+    <Param cond="Event_Type==0x15">
+        <Param type="u" size="2">
+            <Name>Sync Handle</Name>
+            <Default>0x0000</Default>
+            <Desc>LE Periodic Advertising Sync Transfer Received.</Desc>
+        </Param>
+        <Param type="u" size="1">
+            <Name>Channel Index</Name>
+            <Desc>The index of the channel on which the packet was received.</Desc>
+        </Param>
+        <Param type="u" size="2">
+            <Name>RSSI</Name>
+            <Desc>RSSI of the packet.(Range -1270 to +200)</Desc>
+        </Param>
+        <Param type="u" size="1">
+            <Name>RSSI Antenna ID</Name>
+            <Desc>RSSI of the packet.</Desc>
+        </Param>
+        <Param type="u" size="1" valtype="CTE_Type">
+            <Name>CTE Type</Name>
+        </Param>
+        <Param type="u" size="1" valtype="Slot_durations">
+            <Name>Slot Durations</Name>
+        </Param>
+        <Param type="u" size="1" valtype="Packet_status">
+            <Name>Packet Status</Name>
+        </Param>
+        <Param type="u" size="2">
+            <Name>Periodic Event Counter</Name>
+            <Desc>The value of paEventCounter for the reported AUX_SYNC_IND PDU</Desc>
+        </Param>
+        <Param type="u" size="1" label="Count">
+            <Name>Sample Count</Name>
+        </Param>
+        <Param array="Count">
+            <Param type="u" size="1">
+                <Name>I Sample</Name>
+            </Param>
+            <Param type="u" size="1">
+                <Name>Q Sample</Name>
+            </Param>
+        </Param>
+    </Param>
+
+    <!-- Connection IQ Report Event -->
+    <Param cond="Event_Type==0x16">
+        <Param type="u" size="2">
+            <Name>Connection Handle</Name>
+            <Default>0x0000</Default>
+            <Desc>LE Periodic Advertising Sync Transfer Received.</Desc>
+        </Param>
+        <Param type="u" size="1">
+            <Name>RX PHY</Name>
+            <Desc>The index of the channel on which the packet was received.</Desc>
+        </Param>
+        <Param type="u" size="1">
+            <Name>Data Channel Index</Name>
+            <Desc>The index of the data channel on which the Data Physical Channel PDU was received.</Desc>
+        </Param>
+        <Param type="u" size="2">
+            <Name>RSSI</Name>
+            <Desc>RSSI of the packet.(Range -1270 to +200)</Desc>
+        </Param>
+        <Param type="u" size="1">
+            <Name>RSSI Antenna ID</Name>
+            <Desc>RSSI of the packet.</Desc>
+        </Param>
+        <Param type="u" size="1" valtype="CTE_Type">
+            <Name>CTE Type</Name>
+        </Param>
+        <Param type="u" size="1" valtype="Slot_durations">
+            <Name>Slot Durations</Name>
+        </Param>
+        <Param type="u" size="1" valtype="Packet_status">
+            <Name>Packet Status</Name>
+        </Param>
+        <Param type="u" size="2">
+            <Name>Connection Event Counter</Name>
+            <Desc>The value of paEventCounter for the reported AUX_SYNC_IND PDU</Desc>
+        </Param>
+        <Param type="u" size="1" label="Count">
+            <Name>Sample Count</Name>
+        </Param>
+        <Param array="Count">
+            <Param type="u" size="1">
+                <Name>I Sample</Name>
+            </Param>
+            <Param type="u" size="1">
+                <Name>Q Sample</Name>
+            </Param>
+        </Param>
+    </Param>
+
+    <!-- CTE Request Failed Event -->
+    <Param cond="Event_Type==0x17">
+        <Param type="u" size="1">
+            <Name>Status</Name>
+            <Default>0x00</Default>
+            <Desc>The CIS is successfully established.</Desc>
+        </Param>
+        <Param type="u" size="2">
+            <Name>Connection Handle</Name>
+            <Default>0x00</Default>
+            <Desc>Connection_Handle.</Desc>
         </Param>
     </Param>
 
